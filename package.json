@@ -1,6 +1,6 @@
 {
   "name": "harness-portal",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Claude Code のハーネス（スキル・MCP・エージェント・プラグイン）をローカルで収集し、能力マップとして可視化する / Visualize your local Claude Code harness as a capability map",
   "type": "module",
   "keywords": [
