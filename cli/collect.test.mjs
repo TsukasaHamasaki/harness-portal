@@ -10,6 +10,7 @@ import {
   collect,
   extractFrontmatter,
   extractTriggers,
+  mcpListExecOptions,
   parseMcpListOutput,
 } from "./collect.mjs";
 import { findSecretLike } from "../shared/redact.mjs";
@@ -236,4 +237,11 @@ test("parseMcpListOutput recognizes connected remote and stdio entries", () => {
     ["claude.ai Canva", "connector", "connected"],
     ["local", "global", "needs-auth"],
   ]);
+});
+
+test("claude mcp list は win32 でのみ shell 経由で起動する（claude.cmd を解決するため）", () => {
+  assert.equal(mcpListExecOptions("win32").shell, true);
+  assert.equal(mcpListExecOptions("darwin").shell, false);
+  assert.equal(mcpListExecOptions("linux").shell, false);
+  assert.equal(mcpListExecOptions("win32", 500).timeout, 500);
 });

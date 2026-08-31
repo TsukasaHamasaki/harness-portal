@@ -321,12 +321,22 @@ export function parseMcpListOutput(output) {
   return String(output || "").split(/\r?\n/).map(parseMcpLine).filter(Boolean);
 }
 
-export async function runMcpListCommand({ timeoutMs = MCP_TIMEOUT_MS } = {}) {
-  const result = await execFile("claude", ["mcp", "list"], {
+/**
+ * Windows の npm 版 Claude Code は実体が `claude.cmd` で、shell を介さない execFile では
+ * 見つからない（ENOENT）。引数は固定でユーザー入力を含まないため、win32 のときだけ
+ * shell 経由にしてもコマンド注入の余地はない。
+ */
+export function mcpListExecOptions(platform = process.platform, timeoutMs = MCP_TIMEOUT_MS) {
+  return {
     timeout: timeoutMs,
     maxBuffer: 2 * 1024 * 1024,
     windowsHide: true,
-  });
+    shell: platform === "win32",
+  };
+}
+
+export async function runMcpListCommand({ timeoutMs = MCP_TIMEOUT_MS } = {}) {
+  const result = await execFile("claude", ["mcp", "list"], mcpListExecOptions(process.platform, timeoutMs));
   return result.stdout || result.stderr || "";
 }
 
