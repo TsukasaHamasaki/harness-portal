@@ -39,16 +39,15 @@ npx harness-portal
 GitHub から直接実行することもできます（`dist-app/` はビルド済みで同梱されています）。
 
 ```sh
-npx github:<owner>/harness-portal --no-open
+npx github:TsukasaHamasaki/harness-portal --no-open
 ```
 
-公開手順（メンテナ向け）は、SPA をビルドしてから publish します。
+公開手順（メンテナ向け）: `package.json` の `version` を上げてコミットし、同じ番号のタグを push します。
+GitHub Actions（`.github/workflows/publish.yml`）がテストとビルドを通したうえで、npm の Trusted Publishing（OIDC）で publish します。手元で `npm publish` は打ちません。
 
 ```sh
-npm ci
-npm run build
-npm test
-npm publish
+git tag v0.1.4
+git push origin main --tags
 ```
 
 ## 開発者向け検証

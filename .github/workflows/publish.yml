@@ -1,0 +1,39 @@
+# v* タグを push すると npm に公開する。
+# 認証は npm の Trusted Publishing（OIDC）。トークンも OTP も使わない。
+# npmjs.com 側の設定: パッケージ設定 > Trusted Publisher > GitHub Actions
+#   owner: TsukasaHamasaki / repo: harness-portal / workflow: publish.yml
+name: publish
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  id-token: write   # OIDC トークンの発行に必須
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      # Trusted Publishing は npm CLI 11.5.1 以降が必要
+      - run: npm install -g npm@latest && npm --version
+
+      - name: タグと package.json のバージョンが一致することを確認
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG="$(node -p "require('./package.json').version")"
+          test "$TAG" = "$PKG" || { echo "tag v$TAG != package.json $PKG"; exit 1; }
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+      - run: npm publish --provenance --access public
