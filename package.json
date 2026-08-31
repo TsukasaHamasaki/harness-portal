@@ -14,6 +14,14 @@
   ],
   "license": "MIT",
   "author": "Tsukasa Hamasaki",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TsukasaHamasaki/harness-portal.git"
+  },
+  "homepage": "https://harness-portal-nine.vercel.app",
+  "bugs": {
+    "url": "https://github.com/TsukasaHamasaki/harness-portal/issues"
+  },
   "engines": {
     "node": ">=18"
   },
