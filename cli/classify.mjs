@@ -1,4 +1,5 @@
 import { classifyByRule, isCategoryId } from "../shared/categories.mjs";
+import { describeAgentFailure } from "./agent-failure.mjs";
 
 const DEFAULT_BATCH_SIZE = 25;
 const DEFAULT_TIMEOUT_MS = 120_000;
@@ -103,10 +104,10 @@ async function loadSdkQuery() {
   return sdk.query || sdk.default?.query || sdk.default;
 }
 
-function fallbackAll(items, warnings, reason) {
+function fallbackAll(items, warnings, reason, failureReason = null) {
   const categories = new Map(items.map((item) => [item.id, ruleCategory(item)]));
   if (reason) warnings.push(reason);
-  return { categories, mode: items.length ? "rule" : "none", warnings };
+  return { categories, mode: items.length ? "rule" : "none", warnings, failureReason };
 }
 
 export async function classifyItems(items, opts = {}) {
@@ -142,9 +143,10 @@ export async function classifyItems(items, opts = {}) {
     }
     return { categories, mode: "agent", warnings };
   } catch (error) {
-    const reason = error?.name === "TimeoutError"
+    const failureReason = describeAgentFailure(error);
+    const reason = (error?.name === "TimeoutError"
       ? "Agent classification timed out; rule fallback applied"
-      : "Agent classification failed; rule fallback applied";
-    return fallbackAll(sourceItems, warnings, reason);
+      : "Agent classification failed; rule fallback applied") + ` — ${failureReason}`;
+    return fallbackAll(sourceItems, warnings, reason, failureReason);
   }
 }

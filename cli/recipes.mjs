@@ -1,3 +1,5 @@
+import { describeAgentFailure } from "./agent-failure.mjs";
+
 const DEFAULT_TIMEOUT_MS = 180_000;
 const MAX_STEPS = 7;
 const MIN_STEPS = 3;
@@ -179,10 +181,11 @@ export async function buildRecipes(items, opts = {}) {
     const recipes = normalizeRecipes(rawRecipes, knownIds, warnings);
     return { recipes, warnings };
   } catch (error) {
-    const reason = error?.name === "TimeoutError"
+    const failureReason = describeAgentFailure(error);
+    const reason = (error?.name === "TimeoutError"
       ? "Agent recipe generation timed out"
-      : "Agent recipe generation failed";
+      : "Agent recipe generation failed") + ` — ${failureReason}`;
     warnings.push(reason);
-    return { recipes: [], warnings };
+    return { recipes: [], warnings, failureReason };
   }
 }

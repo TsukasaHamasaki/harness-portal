@@ -10,7 +10,8 @@ import {
   collect,
   extractFrontmatter,
   extractTriggers,
-  mcpListExecOptions,
+  mcpListInvocation,
+  resolveClaudeExecutable,
   parseMcpListOutput,
 } from "./collect.mjs";
 import { findSecretLike } from "../shared/redact.mjs";
@@ -239,9 +240,44 @@ test("parseMcpListOutput recognizes connected remote and stdio entries", () => {
   ]);
 });
 
-test("claude mcp list は win32 でのみ shell 経由で起動する（claude.cmd を解決するため）", () => {
-  assert.equal(mcpListExecOptions("win32").shell, true);
-  assert.equal(mcpListExecOptions("darwin").shell, false);
-  assert.equal(mcpListExecOptions("linux").shell, false);
-  assert.equal(mcpListExecOptions("win32", 500).timeout, 500);
+test("mcpListInvocation: win32 の .cmd/拡張子なしは cmd.exe 経由、.exe と非Windowsは直接起動", () => {
+  const cmdEnv = { ComSpec: "C:\\Windows\\system32\\cmd.exe" };
+  const viaCmd = mcpListInvocation("win32", 500, cmdEnv, "C:\\Users\\u\\AppData\\Roaming\\npm\\claude.cmd");
+  assert.equal(viaCmd.file, "C:\\Windows\\system32\\cmd.exe");
+  assert.deepEqual(viaCmd.args, ["/d", "/s", "/c", "C:\\Users\\u\\AppData\\Roaming\\npm\\claude.cmd mcp list"]);
+  assert.equal(viaCmd.options.shell, undefined);
+  assert.equal(viaCmd.options.timeout, 500);
+  const spaced = mcpListInvocation("win32", 500, cmdEnv, "C:\\Program Files\\x\\claude.cmd");
+  assert.equal(spaced.args[3], '"C:\\Program Files\\x\\claude.cmd" mcp list');
+  const unresolved = mcpListInvocation("win32", 500, {}, null);
+  assert.equal(unresolved.file, "cmd.exe");
+  assert.deepEqual(unresolved.args, ["/d", "/s", "/c", "claude mcp list"]);
+  const exe = mcpListInvocation("win32", 500, cmdEnv, "C:\\Users\\u\\.local\\bin\\claude.exe");
+  assert.equal(exe.file, "C:\\Users\\u\\.local\\bin\\claude.exe");
+  assert.deepEqual(exe.args, ["mcp", "list"]);
+  for (const platform of ["darwin", "linux"]) {
+    const unix = mcpListInvocation(platform, 500, {}, "/Users/u/.local/bin/claude");
+    assert.equal(unix.file, "/Users/u/.local/bin/claude");
+    assert.deepEqual(unix.args, ["mcp", "list"]);
+    assert.equal(mcpListInvocation(platform).file, "claude");
+  }
+});
+
+test("resolveClaudeExecutable: PATH に無くても ~/.local/bin から見つける", async () => {
+  const home = await fs.promises.mkdtemp(path.join(os.tmpdir(), "harness-home-"));
+  const emptyPath = await fs.promises.mkdtemp(path.join(os.tmpdir(), "harness-path-"));
+  assert.equal(resolveClaudeExecutable({ platform: "darwin", env: { PATH: emptyPath }, homeDir: home }), null);
+  const localBin = path.join(home, ".local", "bin");
+  await fs.promises.mkdir(localBin, { recursive: true });
+  await fs.promises.writeFile(path.join(localBin, "claude"), "#!/bin/sh\n");
+  assert.equal(resolveClaudeExecutable({ platform: "darwin", env: { PATH: emptyPath }, homeDir: home }), path.join(localBin, "claude"));
+  // PATH 上のものが優先される
+  await fs.promises.writeFile(path.join(emptyPath, "claude"), "#!/bin/sh\n");
+  assert.equal(resolveClaudeExecutable({ platform: "darwin", env: { PATH: emptyPath }, homeDir: home }), path.join(emptyPath, "claude"));
+  // win32: APPDATA\npm の claude.cmd
+  const appdata = await fs.promises.mkdtemp(path.join(os.tmpdir(), "harness-appdata-"));
+  await fs.promises.mkdir(path.join(appdata, "npm"), { recursive: true });
+  await fs.promises.writeFile(path.join(appdata, "npm", "claude.cmd"), "@echo off\n");
+  const winHome = await fs.promises.mkdtemp(path.join(os.tmpdir(), "harness-winhome-"));
+  assert.equal(resolveClaudeExecutable({ platform: "win32", env: { Path: "", APPDATA: appdata }, homeDir: winHome }), path.join(appdata, "npm", "claude.cmd"));
 });

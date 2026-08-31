@@ -321,22 +321,71 @@ export function parseMcpListOutput(output) {
   return String(output || "").split(/\r?\n/).map(parseMcpLine).filter(Boolean);
 }
 
+const WINDOWS_SCRIPT_EXTENSIONS = [".cmd", ".bat"];
+
+function isExecutableFile(filePath) {
+  try {
+    return fs.statSync(filePath).isFile();
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * `claude` の実体を探す。PATH に無くても、Claude Code の既知のインストール先を見る。
+ * （ネイティブインストーラーは ~/.local/bin に置くが、npx を動かしたシェルの PATH に
+ * 入っていないことがある。office の Mac mini と、報告のあった Windows 環境で実際に起きた）
+ */
+export function resolveClaudeExecutable({ platform = process.platform, env = process.env, homeDir = os.homedir() } = {}) {
+  const isWindows = platform === "win32";
+  const names = isWindows ? ["claude.exe", "claude.cmd", "claude.bat", "claude"] : ["claude"];
+  const pathDirs = String(env.PATH || env.Path || "").split(isWindows ? ";" : ":").filter(Boolean);
+  const knownDirs = isWindows
+    ? [
+        path.join(homeDir, ".local", "bin"),
+        env.APPDATA ? path.join(env.APPDATA, "npm") : null,
+        env.LOCALAPPDATA ? path.join(env.LOCALAPPDATA, "Programs", "claude") : null,
+      ]
+    : [
+        path.join(homeDir, ".local", "bin"),
+        path.join(homeDir, ".claude", "local"),
+        "/opt/homebrew/bin",
+        "/usr/local/bin",
+        path.join(homeDir, ".npm-global", "bin"),
+      ];
+  for (const dir of [...pathDirs, ...knownDirs.filter(Boolean)]) {
+    for (const name of names) {
+      const candidate = path.join(dir, name);
+      if (isExecutableFile(candidate)) return candidate;
+    }
+  }
+  return null;
+}
+
 /**
  * Windows の npm 版 Claude Code は実体が `claude.cmd` で、shell を介さない execFile では
- * 見つからない（ENOENT）。引数は固定でユーザー入力を含まないため、win32 のときだけ
- * shell 経由にしてもコマンド注入の余地はない。
+ * 起動できない。その場合だけ cmd.exe に固定文字列のコマンドを渡す（`shell: true` は
+ * Node 24 が DEP0190 警告を出すので使わない）。パスはこちらで解決した値のみを使い、
+ * ユーザー入力を含まないので注入の余地はない。
  */
-export function mcpListExecOptions(platform = process.platform, timeoutMs = MCP_TIMEOUT_MS) {
-  return {
-    timeout: timeoutMs,
-    maxBuffer: 2 * 1024 * 1024,
-    windowsHide: true,
-    shell: platform === "win32",
-  };
+export function mcpListInvocation(platform = process.platform, timeoutMs = MCP_TIMEOUT_MS, env = process.env, executable = null) {
+  const options = { timeout: timeoutMs, maxBuffer: 2 * 1024 * 1024, windowsHide: true };
+  const target = executable || "claude";
+  if (platform === "win32") {
+    const lower = target.toLowerCase();
+    const isScript = WINDOWS_SCRIPT_EXTENSIONS.some((ext) => lower.endsWith(ext)) || !path.extname(target);
+    if (isScript) {
+      const quoted = target.includes(" ") ? `"${target}"` : target;
+      return { file: env.ComSpec || "cmd.exe", args: ["/d", "/s", "/c", `${quoted} mcp list`], options };
+    }
+  }
+  return { file: target, args: ["mcp", "list"], options };
 }
 
 export async function runMcpListCommand({ timeoutMs = MCP_TIMEOUT_MS } = {}) {
-  const result = await execFile("claude", ["mcp", "list"], mcpListExecOptions(process.platform, timeoutMs));
+  const executable = resolveClaudeExecutable();
+  const { file, args, options } = mcpListInvocation(process.platform, timeoutMs, process.env, executable);
+  const result = await execFile(file, args, options);
   return result.stdout || result.stderr || "";
 }
 

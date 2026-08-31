@@ -291,7 +291,7 @@ export async function buildSnapshot({
   const items = classificationItems(snapshot);
   onProgress({ phase: "classify:start", total: items.length, noAgent });
   const classification = await classifyImpl(items, { noAgent });
-  onProgress({ phase: "classify:done", mode: classification.mode });
+  onProgress({ phase: "classify:done", mode: classification.mode, reason: classification.failureReason ?? null });
 
   const recipeItems = items.map((item) => ({
     id: item.id,
@@ -311,7 +311,7 @@ export async function buildSnapshot({
   } else {
     recipesResult = await recipesImpl(recipeItems, {});
   }
-  onProgress({ phase: "recipes:done", count: recipesResult.recipes.length, skipped: recipesSkipped });
+  onProgress({ phase: "recipes:done", count: recipesResult.recipes.length, skipped: recipesSkipped, reason: recipesResult.failureReason ?? null });
 
   return normalizeSnapshot(snapshot, classification, recipesResult);
 }
@@ -416,12 +416,14 @@ export function createProgressReporter(stream = process.stderr) {
       case "classify:done":
         stopTimer();
         stream.write(`▸ 分類完了 ${event.mode === "agent" ? "Claudeが付与" : "規則ベース"}\n`);
+        if (event.reason) stream.write(`  ! ${event.reason}\n`);
         break;
       case "recipes:start":
         if (!event.skipped) stream.write(`▸ フロー生成中 …\n`);
         break;
       case "recipes:done":
         stream.write(event.skipped ? `▸ フロー生成 スキップ\n` : `▸ フロー生成完了 ${event.count}件\n`);
+        if (event.reason) stream.write(`  ! ${event.reason}\n`);
         break;
       case "save:done":
         stream.write(event.id ? `▸ 保存 ${event.id}\n` : "▸ 保存 スキップ\n");
