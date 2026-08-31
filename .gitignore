@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+npm-debug.log*
+coverage/
+.vite/
+.vercel
+
+# 制作プロセスの作業メモ（個人パス・社名を含むため配布物に載せない）
+PLAN.md
+LP-PLAN.md

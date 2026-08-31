@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>harness-portal — あなたのハーネスを、1画面に。</title>
+<meta name="description" content="Claude Code のスキル・MCP・エージェント・プラグインをローカルで収集し、能力マップとして可視化する CLI。npx harness-portal で動きます。" />
+<meta name="theme-color" content="#fafafa" />
+<meta property="og:title" content="harness-portal" />
+<meta property="og:description" content="Visualize your Claude Code harness as a capability map." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* デザイントークンは beautifului.dev のデザインシステムに由来します。
+   MIT License (c) 2026 Shane Levine — 全文は THIRD-PARTY-NOTICES.md を参照 */
+:root{
+  --page: oklch(98.5% .001 286.376);
+  --canvas: oklch(96.1% .002 247.84);
+  --surface: oklch(100% 0 0);
+  --inset: oklch(97.9% .002 247.839);
+  --hover: oklch(97% .002 247.839);
+  --field: oklch(96.1% .001 286.375);
+  --ink: oklch(24.7% .006 258.361);
+  --ink-2: oklch(50.6% .01 264.477);
+  --ink-3: oklch(69.5% .009 264.505);
+  --line: oklch(94.6% .003 264.542);
+  --line-strong: oklch(91.2% .005 258.326);
+  --accent: oklch(62.6% .205 254.947);
+  --accent-ink: oklch(55.6% .187 255.617);
+  --accent-tint: oklch(96% .019 252.878);
+  --green: oklch(60.3% .155 150.883);
+  --green-tint: oklch(95.8% .017 159.118);
+  --orange: oklch(68.9% .179 49.902);
+  --orange-tint: oklch(96.4% .021 67.581);
+  --radius-chip: 6px;
+  --radius-control: 8px;
+  --radius-card: 10px;
+  --radius-window: 14px;
+  --shadow-xs: 0 0 4px 0 #0000000a;
+  --shadow-sm: 0 18px 47px 0 #00000008, 0 7.5px 19px 0 #00000005, 0 4px 10.5px 0 #00000005, 0 2.3px 5.8px 0 #00000003, 0 1.2px 3.1px 0 #00000003, 0 .5px 1.3px 0 #00000003;
+  --shadow-hairline: 0 0 0 1px var(--line);
+  --shadow-btn: 0 0 0 1px var(--line-strong), var(--shadow-xs);
+  --shadow-card: 0 0 0 1px var(--line), var(--shadow-sm);
+  --ease-out-strong: cubic-bezier(.23, 1, .32, 1);
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--font-sans);font-size:14px;font-weight:500;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+code,pre{font-family:var(--font-mono);font-variant-ligatures:none}
+
+.wrap{width:min(980px,calc(100% - 40px));margin:0 auto}
+section{padding:64px 0}
+.eyebrow{margin:0 0 10px;color:var(--ink-3);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+h1,h2,h3{letter-spacing:-.01em;margin:0}
+h2{font-size:22px;font-weight:600;line-height:1.4}
+h3{font-size:15px;font-weight:600}
+.lead{max-width:640px;color:var(--ink-2);font-size:14px;line-height:1.85}
+.en{color:var(--ink-3);font-size:12.5px;font-weight:500;letter-spacing:.01em}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:20;height:60px;background:var(--surface);box-shadow:inset 0 -1px 0 var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:100%}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{display:grid;place-items:center;width:28px;height:28px;border-radius:var(--radius-control);background:var(--ink);color:#fff;font:700 13px/1 var(--font-sans)}
+.brand b{display:block;font-size:12px;letter-spacing:.04em}
+.brand small{display:block;margin-top:3px;color:var(--ink-3);font-size:9px;letter-spacing:.16em}
+.topbar a.npm{padding:7px 13px;border-radius:var(--radius-control);background:var(--surface);box-shadow:var(--shadow-btn);color:var(--ink);font-size:12px;text-decoration:none}
+.topbar a.npm:hover{background:var(--hover)}
+
+/* hero */
+.hero{padding:88px 0 56px;animation:fadeup 600ms var(--ease-out-strong) both}
+.hero h1{font-size:clamp(28px,5vw,42px);font-weight:600;line-height:1.25}
+.hero .en{margin:12px 0 0;font-size:14px}
+.hero .lead{margin:22px 0 0}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+.badge{padding:5px 11px;border-radius:999px;background:var(--canvas);box-shadow:var(--shadow-hairline);color:var(--ink-2);font-size:11px;font-variant-numeric:tabular-nums}
+.install{margin:28px 0 0;padding:18px 20px;border-radius:var(--radius-card);background:var(--ink);color:#fff;box-shadow:var(--shadow-sm)}
+.install .dollar{color:rgb(255 255 255/.45);user-select:none}
+.install code{font-size:clamp(15px,3vw,19px);font-weight:500;letter-spacing:.01em}
+.install p{margin:10px 0 0;color:rgb(255 255 255/.6);font-size:11.5px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 26px}
+.step{padding:20px;border-radius:var(--radius-card);background:var(--surface);box-shadow:var(--shadow-card)}
+.step-icon{display:grid;place-items:center;width:30px;height:30px;border-radius:var(--radius-control);background:var(--canvas);color:var(--ink-2);margin-bottom:13px}
+.step h3{margin-bottom:6px}
+.step p{margin:0;color:var(--ink-2);font-size:12.5px;line-height:1.75}
+.term{padding:18px 20px;border-radius:var(--radius-card);background:var(--canvas);box-shadow:var(--shadow-hairline);overflow-x:auto}
+.term pre{margin:0;color:var(--ink-2);font-size:12px;line-height:1.9;white-space:pre}
+.term .b{color:var(--ink);font-weight:500}
+
+/* features */
+.feature{padding:34px 0;border-top:1px solid var(--line)}
+.feature:first-of-type{border-top:0;padding-top:0}
+.feature h3{font-size:17px}
+.feature .lead{margin:10px 0 20px;font-size:13.5px}
+.shot{display:block;width:100%;height:auto;max-width:100%;border-radius:var(--radius-card);box-shadow:var(--shadow-card);overflow:hidden;background:var(--surface)}
+
+/* privacy */
+.privacy{padding:30px;border-radius:var(--radius-window);background:var(--surface);box-shadow:var(--shadow-card)}
+.privacy ul{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:12px}
+.privacy li{display:flex;gap:11px;align-items:flex-start;color:var(--ink-2);font-size:13px;line-height:1.75}
+.privacy li b{color:var(--ink);font-weight:600}
+.tick{flex:0 0 auto;margin-top:3px;color:var(--green)}
+
+/* footer */
+footer{padding:34px 0 56px;border-top:1px solid var(--line);color:var(--ink-3);font-size:11.5px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+footer a{color:var(--ink-2);text-decoration:none;box-shadow:0 1px 0 var(--line-strong)}
+footer a:hover{color:var(--ink)}
+
+@keyframes fadeup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (max-width:760px){
+  section{padding:44px 0}
+  .steps{grid-template-columns:1fr}
+  .hero{padding:56px 0 40px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <span class="brand">
+      <span class="brand-mark">H</span>
+      <span><b>HARNESS</b><small>PORTAL</small></span>
+    </span>
+    <a class="npm" href="https://www.npmjs.com/package/harness-portal">npm</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Claude Code harness visualizer</p>
+    <h1>あなたのハーネスを、1画面に。</h1>
+    <p class="en">Visualize your Claude Code harness as a capability map.</p>
+    <p class="lead">Claude Code に積んだスキル・MCP サーバー・サブエージェント・プラグインを収集して、「いま何ができる状態か」として並べ直します。増やしたはいいが把握しきれなくなった手持ちを、見える形にするためのツールです。</p>
+    <div class="install">
+      <code><span class="dollar">$ </span>npx harness-portal</code>
+      <p>Node.js 18 以降。インストール不要、そのまま実行できます。</p>
+    </div>
+    <div class="badges">
+      <span class="badge">npm v0.1.2</span>
+      <span class="badge">MIT</span>
+      <span class="badge">依存は Agent SDK 1つだけ・111 kB</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>走査して、分類して、開く。</h2>
+    <p class="lead" style="margin:12px 0 26px">3ステップで完結します。サーバーは立ちません。</p>
+    <div class="steps">
+      <div class="step">
+        <span class="step-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+        <h3>1. 走査 <span class="en">Scan</span></h3>
+        <p><code>~/.claude</code> を allowlist 方式で読みます。読むファイルを明示的に列挙する方式で、<b>書き込みは一切しません</b>。</p>
+      </div>
+      <div class="step">
+        <span class="step-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span>
+        <h3>2. 分類 <span class="en">Classify</span></h3>
+        <p><b>あなた自身の Claude</b> が各項目にカテゴリを付けます。サーバーも API キーも要りません。追加課金もありません。</p>
+      </div>
+      <div class="step">
+        <span class="step-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></span>
+        <h3>3. 表示 <span class="en">Open</span></h3>
+        <p><code>localhost</code> にブラウザが開きます。分類とフロー生成で初回は2分ほどかかります。</p>
+      </div>
+    </div>
+    <div class="term">
+<pre>▸ 走査中 /Users/you/.claude
+<span class="b">▸ 収集完了 スキル48 / MCP19 / エージェント4 / プラグイン3</span>
+▸ 分類中 74項目 — Claudeに問い合わせています（1分ほどかかります）
+▸ 分類完了 Claudeが付与
+▸ フロー生成中 …
+<span class="b">▸ フロー生成完了 10件</span>
+▸ 保存 harness-2026-08-21T02-31-08.417Z.json
+<span class="b">Harness Portal: http://localhost:4477</span></pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">What you get</p>
+    <h2>できること</h2>
+    <p class="lead" style="margin:12px 0 30px">以下はデモ用ハーネス（スキル48・MCP19・エージェント4・プラグイン3）で実際に動かした画面です。<span class="en">Screens from a demo harness.</span></p>
+
+    <div class="feature">
+      <h3>能力マップ <span class="en">Capability map</span></h3>
+      <p class="lead">カテゴリ別に全項目を並べます。<b>名前は省略しません</b>。同じ MCP が複数プロジェクトにあるときは1つにまとめ、登録数をバッジで示します。検索で横断できます。</p>
+      <img class="shot" src="shots/01-map.png" loading="lazy" width="2000" height="960" alt="能力マップの画面。ブラウザを操作する・資料を作る・動画を作るなどのカテゴリごとに、スキルやMCPの名前がチップとして並んでいる" />
+    </div>
+
+    <div class="feature">
+      <h3>タスクフロー <span class="en">Task flows</span></h3>
+      <p class="lead">「この仕事ならこの手順」を、手持ちのツールだけで組み立てます。工程に使える手段が無ければ <b>「手段なし」</b> と正直に出します。各フローから、そのまま実装させるための <b>skill化プロンプト</b>（Markdown）を書き出せます。</p>
+      <img class="shot" src="shots/02-flow.png" loading="lazy" width="2000" height="960" alt="タスクフローの画面。工程ノードが左から右へ並び、曲線の矢印で接続されている。各ノードに担当ツールのチップが入る" />
+    </div>
+
+    <div class="feature">
+      <h3>気づき <span class="en">Findings</span></h3>
+      <p class="lead">同じ名前の MCP がプロジェクトごとに<b>別々の設定</b>になっていないか、同じ設定が重複していないかを検出して、<b>「意図的ですか？」</b>と問いかけます。一覧を眺めるだけでは気づけない箇所です。</p>
+      <img class="shot" src="shots/03-findings.png" loading="lazy" width="2000" height="960" alt="気づきパネルの画面。同じ名前のMCPが2箇所で別々の設定になっていることを警告し、プロジェクト名と設定内容を並べている" />
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="privacy">
+      <p class="eyebrow">Private by design</p>
+      <h2>データは外に出ません。</h2>
+      <ul>
+        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>収集・分類・表示のすべてがローカル。</b> CLI は外部に一切通信しません。</span></li>
+        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>出力前にマスクします。</b> トークン・APIキー・メールアドレス・ホームディレクトリを含むパスは、書き出す前に伏せられます。</span></li>
+        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>履歴はこの端末だけ。</b> <code>~/.harness/snapshots/</code> に直近30件を保存します。アカウント登録もログインもありません。</span></li>
+        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>サーバーは 127.0.0.1 のみ。</b> 配信は自分の端末に閉じています。</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>MIT (c) 2026 Tsukasa Hamasaki</span>
+    <span><a href="https://www.npmjs.com/package/harness-portal">npmjs.com/package/harness-portal</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

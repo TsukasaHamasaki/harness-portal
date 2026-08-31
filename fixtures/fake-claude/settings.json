@@ -1,0 +1,18 @@
+{
+  "model": "sonnet",
+  "effortLevel": "high",
+  "env": {
+    "FIXTURE_API_KEY": "sk-never-export-this-value"
+  },
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": ["Bash(node:*)", "mcp__fixture__*"]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "command": "echo safe"
+      }
+    ]
+  }
+}

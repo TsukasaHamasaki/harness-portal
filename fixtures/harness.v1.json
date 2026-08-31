@@ -1,0 +1,1105 @@
+{
+  "schemaVersion": 1,
+  "machine": {
+    "id": "example-machine",
+    "label": "Example Machine",
+    "os": "macos"
+  },
+  "collectedAt": "2026-08-01T00:00:00.000Z",
+  "counts": {
+    "skills": 78,
+    "agents": 4,
+    "mcpServers": 18,
+    "plugins": 3
+  },
+  "skills": [
+    {
+      "id": "skill-01",
+      "name": "skill-01",
+      "description": "サンプルスキル 01 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-02",
+      "name": "skill-02",
+      "description": "サンプルスキル 02 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7"
+      ]
+    },
+    {
+      "id": "skill-03",
+      "name": "skill-03",
+      "description": "サンプルスキル 03 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7"
+      ]
+    },
+    {
+      "id": "skill-04",
+      "name": "skill-04",
+      "description": "サンプルスキル 04 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6"
+      ]
+    },
+    {
+      "id": "skill-05",
+      "name": "skill-05",
+      "description": "サンプルスキル 05 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6"
+      ]
+    },
+    {
+      "id": "skill-06",
+      "name": "skill-06",
+      "description": "サンプルスキル 06 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7"
+      ]
+    },
+    {
+      "id": "skill-07",
+      "name": "skill-07",
+      "description": "サンプルスキル 07 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-08",
+      "name": "skill-08",
+      "description": "サンプルスキル 08 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3"
+      ]
+    },
+    {
+      "id": "skill-09",
+      "name": "skill-09",
+      "description": "サンプルスキル 09 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-10",
+      "name": "skill-10",
+      "description": "サンプルスキル 10 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7"
+      ]
+    },
+    {
+      "id": "skill-11",
+      "name": "skill-11",
+      "description": "サンプルスキル 11 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6"
+      ]
+    },
+    {
+      "id": "skill-12",
+      "name": "skill-12",
+      "description": "サンプルスキル 12 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-13",
+      "name": "skill-13",
+      "description": "サンプルスキル 13 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-14",
+      "name": "skill-14",
+      "description": "サンプルスキル 14 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3"
+      ]
+    },
+    {
+      "id": "skill-15",
+      "name": "skill-15",
+      "description": "サンプルスキル 15 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-16",
+      "name": "skill-16",
+      "description": "サンプルスキル 16 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6"
+      ]
+    },
+    {
+      "id": "skill-17",
+      "name": "skill-17",
+      "description": "サンプルスキル 17 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3"
+      ]
+    },
+    {
+      "id": "skill-18",
+      "name": "skill-18",
+      "description": "サンプルスキル 18 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3"
+      ]
+    },
+    {
+      "id": "skill-19",
+      "name": "skill-19",
+      "description": "サンプルスキル 19 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5"
+      ]
+    },
+    {
+      "id": "skill-20",
+      "name": "skill-20",
+      "description": "サンプルスキル 20 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7",
+        "トリガー例 8"
+      ]
+    },
+    {
+      "id": "skill-21",
+      "name": "skill-21",
+      "description": "サンプルスキル 21 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7"
+      ]
+    },
+    {
+      "id": "skill-22",
+      "name": "skill-22",
+      "description": "サンプルスキル 22 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-23",
+      "name": "skill-23",
+      "description": "サンプルスキル 23 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-24",
+      "name": "skill-24",
+      "description": "サンプルスキル 24 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5"
+      ]
+    },
+    {
+      "id": "skill-25",
+      "name": "skill-25",
+      "description": "サンプルスキル 25 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6"
+      ]
+    },
+    {
+      "id": "skill-26",
+      "name": "skill-26",
+      "description": "サンプルスキル 26 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6"
+      ]
+    },
+    {
+      "id": "skill-27",
+      "name": "skill-27",
+      "description": "サンプルスキル 27 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3"
+      ]
+    },
+    {
+      "id": "skill-28",
+      "name": "skill-28",
+      "description": "サンプルスキル 28 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-29",
+      "name": "skill-29",
+      "description": "サンプルスキル 29 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7"
+      ]
+    },
+    {
+      "id": "skill-30",
+      "name": "skill-30",
+      "description": "サンプルスキル 30 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7"
+      ]
+    },
+    {
+      "id": "skill-31",
+      "name": "skill-31",
+      "description": "サンプルスキル 31 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7",
+        "トリガー例 8"
+      ]
+    },
+    {
+      "id": "skill-32",
+      "name": "skill-32",
+      "description": "サンプルスキル 32 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7"
+      ]
+    },
+    {
+      "id": "skill-33",
+      "name": "skill-33",
+      "description": "サンプルスキル 33 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7"
+      ]
+    },
+    {
+      "id": "skill-34",
+      "name": "skill-34",
+      "description": "サンプルスキル 34 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-35",
+      "name": "skill-35",
+      "description": "サンプルスキル 35 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6"
+      ]
+    },
+    {
+      "id": "skill-36",
+      "name": "skill-36",
+      "description": "サンプルスキル 36 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-37",
+      "name": "skill-37",
+      "description": "サンプルスキル 37 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-38",
+      "name": "skill-38",
+      "description": "サンプルスキル 38 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-39",
+      "name": "skill-39",
+      "description": "サンプルスキル 39 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-40",
+      "name": "skill-40",
+      "description": "サンプルスキル 40 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-41",
+      "name": "skill-41",
+      "description": "サンプルスキル 41 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-42",
+      "name": "skill-42",
+      "description": "サンプルスキル 42 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-43",
+      "name": "skill-43",
+      "description": "サンプルスキル 43 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-44",
+      "name": "skill-44",
+      "description": "サンプルスキル 44 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-45",
+      "name": "skill-45",
+      "description": "サンプルスキル 45 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-46",
+      "name": "skill-46",
+      "description": "サンプルスキル 46 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7",
+        "トリガー例 8"
+      ]
+    },
+    {
+      "id": "skill-47",
+      "name": "skill-47",
+      "description": "サンプルスキル 47 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3"
+      ]
+    },
+    {
+      "id": "skill-48",
+      "name": "skill-48",
+      "description": "サンプルスキル 48 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3"
+      ]
+    },
+    {
+      "id": "skill-49",
+      "name": "skill-49",
+      "description": "サンプルスキル 49 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5"
+      ]
+    },
+    {
+      "id": "skill-50",
+      "name": "skill-50",
+      "description": "サンプルスキル 50 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6"
+      ]
+    },
+    {
+      "id": "skill-51",
+      "name": "skill-51",
+      "description": "サンプルスキル 51 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-52",
+      "name": "skill-52",
+      "description": "サンプルスキル 52 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6"
+      ]
+    },
+    {
+      "id": "skill-53",
+      "name": "skill-53",
+      "description": "サンプルスキル 53 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-54",
+      "name": "skill-54",
+      "description": "サンプルスキル 54 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5"
+      ]
+    },
+    {
+      "id": "skill-55",
+      "name": "skill-55",
+      "description": "サンプルスキル 55 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6"
+      ]
+    },
+    {
+      "id": "skill-56",
+      "name": "skill-56",
+      "description": "サンプルスキル 56 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-57",
+      "name": "skill-57",
+      "description": "サンプルスキル 57 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-58",
+      "name": "skill-58",
+      "description": "サンプルスキル 58 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3"
+      ]
+    },
+    {
+      "id": "skill-59",
+      "name": "skill-59",
+      "description": "サンプルスキル 59 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7"
+      ]
+    },
+    {
+      "id": "skill-60",
+      "name": "skill-60",
+      "description": "サンプルスキル 60 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5"
+      ]
+    },
+    {
+      "id": "skill-61",
+      "name": "skill-61",
+      "description": "サンプルスキル 61 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7",
+        "トリガー例 8"
+      ]
+    },
+    {
+      "id": "skill-62",
+      "name": "skill-62",
+      "description": "サンプルスキル 62 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6",
+        "トリガー例 7"
+      ]
+    },
+    {
+      "id": "skill-63",
+      "name": "skill-63",
+      "description": "サンプルスキル 63 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3"
+      ]
+    },
+    {
+      "id": "skill-64",
+      "name": "skill-64",
+      "description": "サンプルスキル 64 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-65",
+      "name": "skill-65",
+      "description": "サンプルスキル 65 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-66",
+      "name": "skill-66",
+      "description": "サンプルスキル 66 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5",
+        "トリガー例 6"
+      ]
+    },
+    {
+      "id": "skill-67",
+      "name": "skill-67",
+      "description": "サンプルスキル 67 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3"
+      ]
+    },
+    {
+      "id": "skill-68",
+      "name": "skill-68",
+      "description": "サンプルスキル 68 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-69",
+      "name": "skill-69",
+      "description": "サンプルスキル 69 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-70",
+      "name": "skill-70",
+      "description": "サンプルスキル 70 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-71",
+      "name": "skill-71",
+      "description": "サンプルスキル 71 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5"
+      ]
+    },
+    {
+      "id": "skill-72",
+      "name": "skill-72",
+      "description": "サンプルスキル 72 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-73",
+      "name": "skill-73",
+      "description": "サンプルスキル 73 の説明文。移行テスト用のダミーです。",
+      "triggers": []
+    },
+    {
+      "id": "skill-74",
+      "name": "skill-74",
+      "description": "サンプルスキル 74 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-75",
+      "name": "skill-75",
+      "description": "サンプルスキル 75 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    },
+    {
+      "id": "skill-76",
+      "name": "skill-76",
+      "description": "サンプルスキル 76 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2"
+      ]
+    },
+    {
+      "id": "skill-77",
+      "name": "skill-77",
+      "description": "サンプルスキル 77 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4",
+        "トリガー例 5"
+      ]
+    },
+    {
+      "id": "skill-78",
+      "name": "skill-78",
+      "description": "サンプルスキル 78 の説明文。移行テスト用のダミーです。",
+      "triggers": [
+        "トリガー例 1",
+        "トリガー例 2",
+        "トリガー例 3",
+        "トリガー例 4"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent-01",
+      "description": "サンプルエージェント 01。",
+      "tools": [
+        "Tool1",
+        "Tool2",
+        "Tool3",
+        "Tool4"
+      ],
+      "model": "sonnet"
+    },
+    {
+      "id": "agent-02",
+      "description": "サンプルエージェント 02。",
+      "tools": [
+        "Tool1",
+        "Tool2",
+        "Tool3"
+      ],
+      "model": "sonnet"
+    },
+    {
+      "id": "agent-03",
+      "description": "サンプルエージェント 03。",
+      "tools": [],
+      "model": "opus"
+    },
+    {
+      "id": "agent-04",
+      "description": "サンプルエージェント 04。",
+      "tools": [
+        "Tool1",
+        "Tool2",
+        "Tool3"
+      ],
+      "model": "sonnet"
+    }
+  ],
+  "mcpServers": [
+    {
+      "id": "mcp-01",
+      "scope": "global",
+      "transport": "http",
+      "host": "mcp-01.example.com"
+    },
+    {
+      "id": "mcp-02",
+      "scope": "global",
+      "transport": "stdio",
+      "commandSummary": "npx sample-mcp-02"
+    },
+    {
+      "id": "mcp-03",
+      "scope": "global",
+      "transport": "http",
+      "host": "mcp-03.example.com"
+    },
+    {
+      "id": "mcp-04",
+      "scope": "global",
+      "transport": "stdio",
+      "commandSummary": "npx sample-mcp-04"
+    },
+    {
+      "id": "mcp-05",
+      "scope": "global",
+      "transport": "http",
+      "host": "mcp-05.example.com"
+    },
+    {
+      "id": "mcp-06",
+      "scope": "global",
+      "transport": "stdio",
+      "commandSummary": "npx sample-mcp-06"
+    },
+    {
+      "id": "mcp-07",
+      "scope": "global",
+      "transport": "http",
+      "host": "mcp-07.example.com"
+    },
+    {
+      "id": "mcp-08",
+      "scope": "project",
+      "transport": "http",
+      "host": "mcp-08.example.com",
+      "projectLabel": "project-08"
+    },
+    {
+      "id": "mcp-09",
+      "scope": "project",
+      "transport": "http",
+      "host": "mcp-09.example.com",
+      "projectLabel": "project-09"
+    },
+    {
+      "id": "mcp-10",
+      "scope": "project",
+      "transport": "http",
+      "host": "mcp-10.example.com",
+      "projectLabel": "project-10"
+    },
+    {
+      "id": "mcp-11",
+      "scope": "project",
+      "transport": "stdio",
+      "commandSummary": "npx sample-mcp-11",
+      "projectLabel": "project-11"
+    },
+    {
+      "id": "mcp-12",
+      "scope": "project",
+      "transport": "stdio",
+      "commandSummary": "npx sample-mcp-12",
+      "projectLabel": "project-12"
+    },
+    {
+      "id": "mcp-13",
+      "scope": "project",
+      "transport": "stdio",
+      "commandSummary": "npx sample-mcp-13",
+      "projectLabel": "project-13"
+    },
+    {
+      "id": "mcp-14",
+      "scope": "project",
+      "transport": "stdio",
+      "commandSummary": "npx sample-mcp-14",
+      "projectLabel": "project-14"
+    },
+    {
+      "id": "mcp-15",
+      "scope": "project",
+      "transport": "stdio",
+      "commandSummary": "npx sample-mcp-15",
+      "projectLabel": "project-15"
+    },
+    {
+      "id": "mcp-16",
+      "scope": "project",
+      "transport": "http",
+      "host": "mcp-16.example.com",
+      "projectLabel": "project-16"
+    },
+    {
+      "id": "mcp-17",
+      "scope": "project",
+      "transport": "stdio",
+      "commandSummary": "npx sample-mcp-17",
+      "projectLabel": "project-17"
+    },
+    {
+      "id": "mcp-18",
+      "scope": "project",
+      "transport": "http",
+      "host": "mcp-18.example.com",
+      "projectLabel": "project-18"
+    }
+  ],
+  "plugins": [
+    {
+      "id": "plugin-01",
+      "marketplace": "marketplace-01",
+      "version": "2.0.0",
+      "installedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "plugin-02",
+      "marketplace": "marketplace-02",
+      "version": "1.0.4",
+      "installedAt": "2026-02-01T00:00:00.000Z"
+    },
+    {
+      "id": "plugin-03",
+      "marketplace": "marketplace-03",
+      "version": "1.0.0",
+      "installedAt": "2026-03-01T00:00:00.000Z"
+    }
+  ],
+  "hooks": [
+    {
+      "event": "SessionStart",
+      "count": 3
+    },
+    {
+      "event": "UserPromptSubmit",
+      "count": 4
+    },
+    {
+      "event": "Notification",
+      "count": 3
+    },
+    {
+      "event": "Stop",
+      "count": 5
+    },
+    {
+      "event": "PreToolUse",
+      "count": 5
+    },
+    {
+      "event": "PostToolUse",
+      "count": 4
+    },
+    {
+      "event": "PostToolUseFailure",
+      "count": 2
+    },
+    {
+      "event": "PermissionRequest",
+      "count": 2
+    },
+    {
+      "event": "SessionEnd",
+      "count": 2
+    },
+    {
+      "event": "SubagentStart",
+      "count": 1
+    },
+    {
+      "event": "SubagentStop",
+      "count": 2
+    },
+    {
+      "event": "TeammateIdle",
+      "count": 1
+    },
+    {
+      "event": "TaskCreated",
+      "count": 1
+    },
+    {
+      "event": "TaskCompleted",
+      "count": 1
+    },
+    {
+      "event": "PreCompact",
+      "count": 1
+    }
+  ],
+  "permissions": {
+    "allowCount": 28,
+    "categories": {
+      "bash": 22,
+      "mcp": 5,
+      "other": 1
+    }
+  },
+  "claudeMd": {
+    "sections": [
+      "セクション 1",
+      "セクション 2",
+      "セクション 3"
+    ]
+  },
+  "settings": {
+    "model": "opus[1m]",
+    "envKeyNames": [
+      "SAMPLE_ENV_1",
+      "SAMPLE_ENV_2"
+    ]
+  }
+}

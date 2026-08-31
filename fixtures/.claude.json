@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "local-fixture": {
+      "command": "node",
+      "args": ["server.mjs", "--api-key", "AIzaEXAMPLE_NOT_A_REAL_KEY"],
+      "env": {
+        "FIXTURE_SECRET": "Bearer fixture-secret-value"
+      }
+    },
+    "claude.ai Fixture Connector": {
+      "type": "http",
+      "scope": "connector",
+      "url": "https://connector.example/mcp",
+      "headers": {
+        "Authorization": "Bearer fixture-secret-value"
+      }
+    }
+  },
+  "projects": {
+    "/Users/fixture-user/private-project": {
+      "mcpServers": {
+        "project-fixture": {
+          "command": "npx",
+          "args": ["-y", "fixture-mcp"]
+        }
+      }
+    }
+  }
+}

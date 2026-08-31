@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 2,
+  "exportedAt": "2026-08-15T01:23:45.000Z",
+  "exporter": {
+    "kind": "cli",
+    "version": "1.0.0",
+    "classifier": "agent"
+  },
+  "environment": {
+    "os": "darwin",
+    "claudeVersion": "1.0.0",
+    "model": "claude-sonnet",
+    "language": "ja-JP"
+  },
+  "counts": {
+    "skills": 3,
+    "agents": 1,
+    "mcpServers": 2,
+    "plugins": 1,
+    "commands": 1
+  },
+  "skills": [
+    {
+      "id": "skill:browser-helper",
+      "name": "browser-helper",
+      "description": "Chrome browser automation",
+      "scope": "user",
+      "triggers": ["ブラウザで確認して"],
+      "category": "browser"
+    },
+    {
+      "id": "skill:slide-maker",
+      "name": "slide-maker",
+      "description": "PowerPoint資料を作る",
+      "scope": "project",
+      "triggers": ["スライドを作って"],
+      "category": "docs"
+    },
+    {
+      "id": "skill:mystery-tool",
+      "name": "mystery-tool",
+      "description": "A private capability with no category keyword",
+      "scope": "plugin",
+      "triggers": [],
+      "category": null
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent:reviewer",
+      "description": "Reviews implementation",
+      "tools": ["Read", "Write"],
+      "model": "claude-sonnet",
+      "category": "dev"
+    }
+  ],
+  "mcpServers": [
+    {
+      "id": "claude.ai Gmail",
+      "scope": "connector",
+      "transport": "http",
+      "host": "gmail.example",
+      "status": "connected",
+      "category": "gws"
+    },
+    {
+      "id": "local-tools",
+      "scope": "global",
+      "transport": "stdio",
+      "commandSummary": "node local-mcp",
+      "status": "failed",
+      "category": "dev"
+    }
+  ],
+  "plugins": [
+    {
+      "id": "demo",
+      "marketplace": "official",
+      "version": "1.0.0",
+      "enabled": true,
+      "installedAt": "2026-08-01T00:00:00.000Z"
+    }
+  ],
+  "commands": [
+    {
+      "id": "inspect",
+      "scope": "user"
+    }
+  ],
+  "hooks": [
+    {
+      "event": "PreToolUse",
+      "count": 1
+    }
+  ],
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allowCount": 2,
+    "categories": {
+      "Bash": 1,
+      "MCP": 1,
+      "Other": 0
+    }
+  },
+  "claudeMd": {
+    "sections": ["Project rules"]
+  },
+  "settings": {
+    "model": "claude-sonnet",
+    "effortLevel": "high",
+    "envKeyNames": ["EXAMPLE_API_KEY"]
+  },
+  "warnings": []
+}

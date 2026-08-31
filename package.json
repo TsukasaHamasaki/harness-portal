@@ -1,0 +1,51 @@
+{
+  "name": "harness-portal",
+  "version": "0.1.2",
+  "description": "Claude Code のハーネス（スキル・MCP・エージェント・プラグイン）をローカルで収集し、能力マップとして可視化する / Visualize your local Claude Code harness as a capability map",
+  "type": "module",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "mcp",
+    "agent",
+    "skills",
+    "visualization",
+    "cli"
+  ],
+  "license": "MIT",
+  "author": "Tsukasa Hamasaki",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "harness-portal": "cli/index.mjs"
+  },
+  "files": [
+    "cli/",
+    "shared/",
+    "dist-app/",
+    "schema/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc --noEmit -p app/tsconfig.json && vite build --config vite.config.ts",
+    "test": "vitest run --config vitest.config.ts && node --test shared/*.test.mjs cli/*.test.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.3.232"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^6.0.5",
+    "jsdom": "^26.1.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10"
+  }
+}
