@@ -8,6 +8,12 @@
 <title>harness-portal — Your whole harness, on one screen.</title>
 <meta name="description" content="A CLI that collects your Claude Code skills, MCP servers, agents, and plugins locally and shows them as a capability map. Runs with npx harness-portal." />
 <meta name="theme-color" content="#fafafa" />
+<link rel="icon" href="../icons/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/icon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../icons/icon-180.png" />
+<meta property="og:image" content="https://harness-portal-nine.vercel.app/icons/icon-square-1024.png" />
+<meta property="og:url" content="https://harness-portal-nine.vercel.app/en/" />
 <meta property="og:title" content="harness-portal" />
 <meta property="og:description" content="Visualize your Claude Code harness as a capability map." />
 <meta property="og:type" content="website" />
@@ -69,7 +75,7 @@ h3{font-size:15px;font-weight:600}
 .topbar{position:sticky;top:0;z-index:20;height:60px;background:var(--surface);box-shadow:inset 0 -1px 0 var(--line)}
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:100%}
 .brand{display:flex;align-items:center;gap:10px}
-.brand-mark{display:grid;place-items:center;width:28px;height:28px;border-radius:var(--radius-control);background:var(--ink);color:#fff;font:700 13px/1 var(--font-sans)}
+.brand-mark{display:block;width:28px;height:28px;border-radius:7px}
 .brand b{display:block;font-size:12px;letter-spacing:.04em}
 .brand small{display:block;margin-top:3px;color:var(--ink-3);font-size:9px;letter-spacing:.16em}
 .topbar-links{display:flex;gap:8px}
@@ -151,7 +157,7 @@ footer a:hover{color:var(--ink)}
 <header class="topbar">
   <div class="wrap">
     <span class="brand">
-      <span class="brand-mark">H</span>
+      <img class="brand-mark" src="../icons/icon-64.png" width="28" height="28" alt="" />
       <span><b>HARNESS</b><small>PORTAL</small></span>
     </span>
     <span class="topbar-links"><a class="npm" href="/" hreflang="ja" lang="ja">JA</a><a class="npm" href="https://www.npmjs.com/package/harness-portal">npm</a></span>
@@ -179,7 +185,7 @@ footer a:hover{color:var(--ink)}
       <li>It still runs when not logged in, but classification falls back to keyword rules and no flows are generated. The terminal tells you so.</li>
     </ul>
     <div class="badges">
-      <span class="badge">npm v0.1.6</span>
+      <span class="badge">npm v0.1.7</span>
       <span class="badge">MIT</span>
       <span class="badge">One dependency (Agent SDK) · 111 kB</span>
     </div>

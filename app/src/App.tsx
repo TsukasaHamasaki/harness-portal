@@ -149,7 +149,7 @@ export default function App() {
       <div className="app-shell">
         <header className="topbar">
           <a className="brand" href="/" aria-label={t("brandHomeAria")}>
-            <span className="brand-mark">H</span>
+            <img className="brand-mark" src="/icon-64.png" width="28" height="28" alt="" />
             <span><strong>HARNESS</strong><small>PORTAL</small></span>
           </a>
           <div className="topbar-actions">
