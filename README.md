@@ -4,7 +4,7 @@ Claude Code のローカルハーネス（スキル、エージェント、MCP�
 
 ## ローカルで使う
 
-Node.js 18 以降で、Claude Code が利用できる環境から実行します。
+Node.js 18 以降と、インストール済みでログイン済みの Claude Code が必要です（分類とフロー生成にあなたの Claude を使います）。macOS / Windows / Linux（WSL）で動きます。未ログインの場合も動作しますが、分類はキーワード規則になり、フローは生成されません。
 
 ```sh
 npx harness-portal --no-open
