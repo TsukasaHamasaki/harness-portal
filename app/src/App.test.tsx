@@ -240,4 +240,38 @@ describe("Harness Portal SPA", () => {
     });
     await waitFor(() => expect(screen.queryByRole("alert")).toBeNull());
   });
+
+  it("EN ボタンで UI・カテゴリ名・気づきが英語になり、選択がブラウザに記憶される", async () => {
+    const withDup = JSON.parse(JSON.stringify(sample)) as HarnessSnapshot;
+    withDup.mcpServers = [
+      ...withDup.mcpServers,
+      { ...withDup.mcpServers[1], scope: "project", commandSummary: "node other-mcp" },
+    ];
+    mockSnapshotEndpoint(withDup);
+    render(<App />);
+
+    await screen.findByRole("heading", { name: "何ができる状態か" });
+    expect(screen.getByRole("heading", { name: /ブラウザを操作する/ })).toBeTruthy();
+    fireEvent.click(within(screen.getByTestId("lang-switch")).getByRole("button", { name: "EN" }));
+
+    expect(await screen.findByRole("heading", { name: "What you can do right now" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: /Browser automation/ })).toBeTruthy();
+    expect(screen.getByText("Local mode")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Inventory" })).toBeTruthy();
+    expect(screen.getByText(/has 2 different configurations/)).toBeTruthy();
+    expect(document.documentElement.lang).toBe("en");
+    expect(localStorage.getItem("harness-portal.lang")).toBe("en");
+
+    fireEvent.click(within(screen.getByTestId("lang-switch")).getByRole("button", { name: "JA" }));
+    expect(await screen.findByRole("heading", { name: "何ができる状態か" })).toBeTruthy();
+  });
+
+  it("スナップショットが英語で生成されていれば、未選択のときは英語で開く", async () => {
+    const english = JSON.parse(JSON.stringify(sample)) as HarnessSnapshot;
+    english.environment.language = "en";
+    mockSnapshotEndpoint(english);
+    render(<App />);
+
+    expect(await screen.findByRole("heading", { name: "What you can do right now" })).toBeTruthy();
+  });
 });

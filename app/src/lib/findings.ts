@@ -1,4 +1,5 @@
 import type { HarnessSnapshot } from "./schema";
+import type { Lang } from "../../../shared/i18n.mjs";
 
 export type FindingEntry = { label: string; detail: string };
 
@@ -10,7 +11,23 @@ export type HarnessFinding = {
   entries: FindingEntry[];
 };
 
-export function findHarnessFindings(s: HarnessSnapshot): HarnessFinding[] {
+const FINDING_TEXT = {
+  ja: {
+    redundantTitle: (id: string, n: number) => `${id} が${n}つのプロジェクトに同じ設定で登録されています`,
+    redundantQuestion: "意図的ですか？ global スコープにまとめると1つで済みます。",
+    divergentTitle: (id: string, n: number) => `${id} が${n}箇所で別々の設定になっています`,
+    divergentQuestion: "意図的ですか？ 同じ名前で中身が違うと、どちらが使われるか分かりにくくなります。",
+  },
+  en: {
+    redundantTitle: (id: string, n: number) => `${id} is registered with the same config in ${n} projects`,
+    redundantQuestion: "Is that intentional? One entry in the global scope would cover them all.",
+    divergentTitle: (id: string, n: number) => `${id} has ${n} different configurations`,
+    divergentQuestion: "Is that intentional? Same name with different contents makes it hard to tell which one runs.",
+  },
+} as const;
+
+export function findHarnessFindings(s: HarnessSnapshot, lang: Lang = "ja"): HarnessFinding[] {
+  const text = FINDING_TEXT[lang];
   const groups = new Map<string, HarnessSnapshot["mcpServers"]>();
   for (const entry of s.mcpServers) {
     const group = groups.get(entry.id);
@@ -39,8 +56,8 @@ export function findHarnessFindings(s: HarnessSnapshot): HarnessFinding[] {
         finding: {
           id: `mcp-redundant:${mcpId}`,
           kind: "redundant",
-          title: `${mcpId} が${n}つのプロジェクトに同じ設定で登録されています`,
-          question: "意図的ですか？ global スコープにまとめると1つで済みます。",
+          title: text.redundantTitle(mcpId, n),
+          question: text.redundantQuestion,
           entries,
         },
       });
@@ -50,8 +67,8 @@ export function findHarnessFindings(s: HarnessSnapshot): HarnessFinding[] {
         finding: {
           id: `mcp-divergent:${mcpId}`,
           kind: "divergent",
-          title: `${mcpId} が${n}箇所で別々の設定になっています`,
-          question: "意図的ですか？ 同じ名前で中身が違うと、どちらが使われるか分かりにくくなります。",
+          title: text.divergentTitle(mcpId, n),
+          question: text.divergentQuestion,
           entries,
         },
       });

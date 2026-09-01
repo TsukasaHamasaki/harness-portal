@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <link rel="alternate" hreflang="en" href="https://harness-portal-nine.vercel.app/en/" />
 <link rel="alternate" hreflang="ja" href="https://harness-portal-nine.vercel.app/" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>harness-portal — あなたのハーネスを、1画面に。</title>
-<meta name="description" content="Claude Code のスキル・MCP・エージェント・プラグインをローカルで収集し、能力マップとして可視化する CLI。npx harness-portal で動きます。" />
+<title>harness-portal — Your whole harness, on one screen.</title>
+<meta name="description" content="A CLI that collects your Claude Code skills, MCP servers, agents, and plugins locally and shows them as a capability map. Runs with npx harness-portal." />
 <meta name="theme-color" content="#fafafa" />
 <meta property="og:title" content="harness-portal" />
 <meta property="og:description" content="Visualize your Claude Code harness as a capability map." />
@@ -136,29 +136,29 @@ footer a:hover{color:var(--ink)}
       <span class="brand-mark">H</span>
       <span><b>HARNESS</b><small>PORTAL</small></span>
     </span>
-    <span class="topbar-links"><a class="npm" href="/en/" hreflang="en" lang="en">EN</a><a class="npm" href="https://www.npmjs.com/package/harness-portal">npm</a></span>
+    <span class="topbar-links"><a class="npm" href="/" hreflang="ja" lang="ja">JA</a><a class="npm" href="https://www.npmjs.com/package/harness-portal">npm</a></span>
   </div>
 </header>
 
 <section class="hero">
   <div class="wrap">
     <p class="eyebrow">Claude Code harness visualizer</p>
-    <h1>あなたのハーネスを、1画面に。</h1>
-    <p class="en">Visualize your Claude Code harness as a capability map.</p>
-    <p class="lead">Claude Code に積んだスキル・MCP サーバー・サブエージェント・プラグインを収集して、「いま何ができる状態か」として並べ直します。増やしたはいいが把握しきれなくなった手持ちを、見える形にするためのツールです。</p>
+    <h1>Your whole harness, on one screen.</h1>
+    <p class="en">あなたのハーネスを、1画面に。</p>
+    <p class="lead">It collects the skills, MCP servers, sub-agents, and plugins you have added to Claude Code and lays them out as “what I can do right now”. A tool for seeing the toolkit you kept growing and stopped being able to track.</p>
     <div class="install">
       <code><span class="dollar">$ </span>npx harness-portal</code>
-      <p>インストール不要。macOS / Windows / Linux（WSL）で、PowerShell でも cmd でも同じコマンドです。</p>
+      <p>No install. Same command on macOS, Windows, and Linux (WSL) — PowerShell or cmd.</p>
     </div>
     <ul class="reqs">
-      <li><b>Node.js 18 以降</b></li>
-      <li><b>Claude Code</b> がインストール済みで、<b>ログイン済み</b>であること（分類とフロー生成にあなたの Claude を使うため）</li>
-      <li>未ログインでも動きますが、分類はキーワード規則になり、フローは生成されません。その旨がターミナルに表示されます</li>
+      <li><b>Node.js 18 or later</b></li>
+      <li><b>Claude Code</b> installed and <b>logged in</b> (classification and flow generation use your own Claude)</li>
+      <li>It still runs when not logged in, but classification falls back to keyword rules and no flows are generated. The terminal tells you so.</li>
     </ul>
     <div class="badges">
       <span class="badge">npm v0.1.6</span>
       <span class="badge">MIT</span>
-      <span class="badge">依存は Agent SDK 1つだけ・111 kB</span>
+      <span class="badge">One dependency (Agent SDK) · 111 kB</span>
     </div>
   </div>
 </section>
@@ -166,33 +166,33 @@ footer a:hover{color:var(--ink)}
 <section>
   <div class="wrap">
     <p class="eyebrow">How it works</p>
-    <h2>走査して、分類して、開く。</h2>
-    <p class="lead" style="margin:12px 0 26px">3ステップで完結します。外部のサーバーは使いません。立つのはあなたの端末内の localhost だけです。</p>
+    <h2>Scan, classify, open.</h2>
+    <p class="lead" style="margin:12px 0 26px">Three steps. No external server — the only thing that starts is localhost on your own machine.</p>
     <div class="steps">
       <div class="step">
         <span class="step-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
-        <h3>1. 走査 <span class="en">Scan</span></h3>
-        <p><code>~/.claude</code> を allowlist 方式で読みます。読むファイルを明示的に列挙する方式で、<b>書き込みは一切しません</b>。</p>
+        <h3>1. Scan <span class="en">走査</span></h3>
+        <p>Reads <code>~/.claude</code> with an allowlist — only explicitly listed files are opened, and <b>nothing is ever written</b>.</p>
       </div>
       <div class="step">
         <span class="step-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span>
-        <h3>2. 分類 <span class="en">Classify</span></h3>
-        <p><b>あなた自身の Claude</b> が各項目にカテゴリを付けます。外部サーバーも API キーも要りません。追加課金もありません。Claude Code にログインしていない場合はキーワード規則で代替します。</p>
+        <h3>2. Classify <span class="en">分類</span></h3>
+        <p><b>Your own Claude</b> assigns a category to each item. No external server, no API key, no extra billing. Without a Claude Code login it falls back to keyword rules.</p>
       </div>
       <div class="step">
         <span class="step-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></span>
-        <h3>3. 表示 <span class="en">Open</span></h3>
-        <p><code>localhost</code> にブラウザが開きます。分類とフロー生成で初回は2分ほどかかります。</p>
+        <h3>3. Open <span class="en">表示</span></h3>
+        <p>Your browser opens on <code>localhost</code>. The first run takes about two minutes for classification and flow generation.</p>
       </div>
     </div>
     <div class="term">
-<pre>▸ 走査中 /Users/you/.claude
-<span class="b">▸ 収集完了 スキル48 / MCP19 / エージェント4 / プラグイン3</span>
-▸ 分類中 74項目 — Claudeに問い合わせています（1分ほどかかります）
-▸ 分類完了 Claudeが付与
-▸ フロー生成中 …
-<span class="b">▸ フロー生成完了 10件</span>
-▸ 保存 harness-2026-08-21T02-31-08.417Z.json
+<pre>▸ Scanning /Users/you/.claude
+<span class="b">▸ Collected skills 48 / MCP 19 / agents 4 / plugins 3</span>
+▸ Classifying 74 items — asking Claude (about a minute)
+▸ Classified by Claude
+▸ Generating flows …
+<span class="b">▸ Generated 10 flows</span>
+▸ Saved harness-2026-08-21T02-31-08.417Z.json
 <span class="b">Harness Portal: http://localhost:4477</span></pre>
     </div>
   </div>
@@ -201,25 +201,25 @@ footer a:hover{color:var(--ink)}
 <section>
   <div class="wrap">
     <p class="eyebrow">What you get</p>
-    <h2>できること</h2>
-    <p class="lead" style="margin:12px 0 30px">以下はデモ用ハーネス（スキル48・MCP19・エージェント4・プラグイン3）で実際に動かした画面です。<span class="en">Screens from a demo harness.</span></p>
+    <h2>What you get</h2>
+    <p class="lead" style="margin:12px 0 30px">Real screens from a demo harness (48 skills, 19 MCP servers, 4 agents, 3 plugins). The UI is shown in Japanese here; the app has a JA / EN switch in the header.</p>
 
     <div class="feature">
-      <h3>能力マップ <span class="en">Capability map</span></h3>
-      <p class="lead">カテゴリ別に全項目を並べます。<b>名前は省略しません</b>。同じ MCP が複数プロジェクトにあるときは1つにまとめ、登録数をバッジで示します。検索で横断できます。</p>
-      <img class="shot" src="shots/01-map.png" loading="lazy" width="2000" height="960" alt="能力マップの画面。ブラウザを操作する・資料を作る・動画を作るなどのカテゴリごとに、スキルやMCPの名前がチップとして並んでいる" />
+      <h3>Capability map <span class="en">能力マップ</span></h3>
+      <p class="lead">Every item, grouped by category. <b>Names are never truncated.</b> An MCP server registered in several projects is shown once with a count badge. Search across everything.</p>
+      <img class="shot" src="../shots/01-map.png" loading="lazy" width="2000" height="960" alt="The capability map: skills and MCP servers shown as chips, grouped into categories such as browser automation, documents, and video." />
     </div>
 
     <div class="feature">
-      <h3>タスクフロー <span class="en">Task flows</span></h3>
-      <p class="lead">「この仕事ならこの手順」を、手持ちのツールだけで組み立てます。工程に使える手段が無ければ <b>「手段なし」</b> と正直に出します。各フローから、そのまま実装させるための <b>skill化プロンプト</b>（Markdown）を書き出せます。</p>
-      <img class="shot" src="shots/02-flow.png" loading="lazy" width="2000" height="960" alt="タスクフローの画面。工程ノードが左から右へ並び、曲線の矢印で接続されている。各ノードに担当ツールのチップが入る" />
+      <h3>Task flows <span class="en">タスクフロー</span></h3>
+      <p class="lead">“For this job, these steps” — assembled from the tools you actually have. If no tool covers a step it says <b>“No tool available”</b> instead of pretending. Each flow exports a <b>skill prompt</b> (Markdown) you can hand straight to Claude Code.</p>
+      <img class="shot" src="../shots/02-flow.png" loading="lazy" width="2000" height="960" alt="A task flow: numbered step nodes laid out left to right, connected by curved arrows, each holding the tool chips for that step." />
     </div>
 
     <div class="feature">
-      <h3>気づき <span class="en">Findings</span></h3>
-      <p class="lead">同じ名前の MCP がプロジェクトごとに<b>別々の設定</b>になっていないか、同じ設定が重複していないかを検出して、<b>「意図的ですか？」</b>と問いかけます。一覧を眺めるだけでは気づけない箇所です。</p>
-      <img class="shot" src="shots/03-findings.png" loading="lazy" width="2000" height="960" alt="気づきパネルの画面。同じ名前のMCPが2箇所で別々の設定になっていることを警告し、プロジェクト名と設定内容を並べている" />
+      <h3>Findings <span class="en">気づき</span></h3>
+      <p class="lead">Detects MCP servers that carry the <b>same name but different settings</b> across projects, or identical entries registered more than once, and asks <b>“Is that intentional?”</b> — the kind of thing you never notice by scrolling a list.</p>
+      <img class="shot" src="../shots/03-findings.png" loading="lazy" width="2000" height="960" alt="The findings panel: warns that an MCP server with the same name has different configurations in two places, listing each project and its settings." />
     </div>
   </div>
 </section>
@@ -228,12 +228,12 @@ footer a:hover{color:var(--ink)}
   <div class="wrap">
     <div class="privacy">
       <p class="eyebrow">Private by design</p>
-      <h2>データは外に出ません。</h2>
+      <h2>Nothing leaves your machine.</h2>
       <ul>
-        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>収集・分類・表示のすべてがローカル。</b> CLI は外部に一切通信しません。</span></li>
-        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>出力前にマスクします。</b> トークン・APIキー・メールアドレス・ホームディレクトリを含むパスは、書き出す前に伏せられます。</span></li>
-        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>履歴はこの端末だけ。</b> <code>~/.harness/snapshots/</code> に直近30件を保存します。アカウント登録もログインもありません。</span></li>
-        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>サーバーは 127.0.0.1 のみ。</b> 配信は自分の端末に閉じています。</span></li>
+        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Collection, classification, and display are all local.</b> The CLI never talks to any external service.</span></li>
+        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Masked before output.</b> Tokens, API keys, email addresses, and paths containing your home directory are redacted before anything is written.</span></li>
+        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>History stays on this machine.</b> The last 30 snapshots live in <code>~/.harness/snapshots/</code>. No account, no sign-up.</span></li>
+        <li><span class="tick"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Bound to 127.0.0.1 only.</b> The page is served to your own machine and nowhere else.</span></li>
       </ul>
     </div>
   </div>

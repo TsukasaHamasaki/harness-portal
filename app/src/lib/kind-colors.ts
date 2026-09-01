@@ -1,3 +1,5 @@
+import type { Lang } from "../../../shared/i18n.mjs";
+
 export type CapabilityKind = "skill" | "agent" | "mcp" | "plugin" | "command";
 
 export const KIND_COLORS = {
@@ -15,3 +17,15 @@ export const KIND_LABELS_JA = {
   plugin: "プラグイン",
   command: "コマンド",
 } as const;
+
+export const KIND_LABELS_EN = {
+  skill: "Skill",
+  mcp: "MCP",
+  agent: "Agent",
+  plugin: "Plugin",
+  command: "Command",
+} as const;
+
+export function kindLabel(kind: CapabilityKind, lang: Lang): string {
+  return lang === "ja" ? KIND_LABELS_JA[kind] : KIND_LABELS_EN[kind];
+}

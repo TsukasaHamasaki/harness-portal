@@ -106,4 +106,15 @@ describe("findHarnessFindings", () => {
     expect(findings.map((f) => f.kind)).toEqual(["divergent", "redundant"]);
     expect(findings.map((f) => f.id)).toEqual(["mcp-divergent:notion", "mcp-redundant:analytics-db"]);
   });
+
+  it("lang=en では英語の見出しと問いになる", () => {
+    const [finding] = findHarnessFindings({
+      mcpServers: [
+        mcp({ id: "analytics-db", scope: "project", transport: "stdio", commandSummary: "npx analytics-db", projectLabel: "project-a" }),
+        mcp({ id: "analytics-db", scope: "project", transport: "stdio", commandSummary: "npx analytics-db", projectLabel: "project-b" }),
+      ],
+    } as never, "en");
+    expect(finding.title).toBe("analytics-db is registered with the same config in 2 projects");
+    expect(finding.question).toMatch(/Is that intentional\?/);
+  });
 });

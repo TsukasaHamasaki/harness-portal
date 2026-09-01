@@ -1,12 +1,14 @@
 import { describeAgentFailure } from "./agent-failure.mjs";
+import { cliText } from "../shared/i18n.mjs";
 
 const DEFAULT_TIMEOUT_MS = 180_000;
 const MAX_STEPS = 7;
 const MIN_STEPS = 3;
 const MAX_RECIPES = 10;
 
-function promptFor(items) {
+function promptFor(items, lang = "ja") {
   return [
+    cliText(lang, "recipeLanguage"),
     "You are given a list of tools available in a user's Claude Code harness.",
     "Design 6 to 10 task recipes (common workflows) that combine these tools into a step-by-step flow.",
     "Each recipe must have 3 to 7 steps (phases). Each step is a phase name plus the item ids used for it.",
@@ -165,7 +167,7 @@ export async function buildRecipes(items, opts = {}) {
     if (typeof queryImpl !== "function") throw new Error("Agent SDK query unavailable");
 
     const request = {
-      prompt: promptFor(sourceItems),
+      prompt: promptFor(sourceItems, opts.lang),
       items: sourceItems,
       timeoutMs,
     };
@@ -181,7 +183,7 @@ export async function buildRecipes(items, opts = {}) {
     const recipes = normalizeRecipes(rawRecipes, knownIds, warnings);
     return { recipes, warnings };
   } catch (error) {
-    const failureReason = describeAgentFailure(error);
+    const failureReason = describeAgentFailure(error, opts.lang);
     const reason = (error?.name === "TimeoutError"
       ? "Agent recipe generation timed out"
       : "Agent recipe generation failed") + ` — ${failureReason}`;

@@ -1,5 +1,13 @@
 # harness-portal
 
+**Visualize your Claude Code harness as a capability map.** `npx harness-portal` collects the skills, MCP servers, sub-agents, and plugins on your machine, classifies them with your own Claude, and opens a local page showing what you can do right now — plus task flows built from your tools and findings about duplicated MCP configs. Nothing leaves your machine.
+
+Requirements: Node.js 18+, Claude Code installed and logged in. Works on macOS, Windows, and Linux (WSL). The UI has a JA / EN switch; the CLI follows your OS locale, or pass `--lang en` / `--lang ja`.
+
+Landing page: https://harness-portal-nine.vercel.app/en/ — 日本語は以下。
+
+---
+
 Claude Code のローカルハーネス（スキル、エージェント、MCP、プラグイン、commands、hooks、permissions）を収集・分類し、能力マップとして表示するポータルです。収集対象はローカルの allowlist に限定し、出力前に秘密情報とホームパスをマスクします。
 
 ## ローカルで使う
@@ -19,7 +27,7 @@ npx harness-portal --claude-dir /path/to/.claude --port 4477
 npx harness-portal --data-dir /path/to/harness-data --no-open
 ```
 
-`--no-agent` は Claude Agent SDK による分類を使わず、共有キーワード規則で分類します。`--stdout` は JSON を標準出力へ出して終了します。CLI は `--claude-dir` 配下へ書き込みません。
+`--lang ja|en` で表示言語を指定できます（未指定なら OS の言語が日本語のときだけ日本語、それ以外は英語。画面上の JA / EN ボタンでも切り替えられます）。`--no-agent` は Claude Agent SDK による分類を使わず、共有キーワード規則で分類します。`--stdout` は JSON を標準出力へ出して終了します。CLI は `--claude-dir` 配下へ書き込みません。
 
 収集に成功したスナップショットは、既定で `~/.harness/snapshots/` に保存されます。ローカル環境の履歴一覧・差分・削除を利用できます。履歴は新しい順に30件まで保持され、上限を超えた古いスナップショットは削除されます。保存したくない場合は `--no-save`、保存先のルートを変更したい場合は `--data-dir <dir>` を指定してください。
 

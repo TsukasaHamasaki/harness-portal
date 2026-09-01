@@ -1,4 +1,5 @@
-import { CATEGORIES, classifyByRule, isCategoryId } from "../../../shared/categories.mjs";
+import { CATEGORIES, categoryLabel, classifyByRule, isCategoryId } from "../../../shared/categories.mjs";
+import type { Lang } from "../../../shared/i18n.mjs";
 import type { CategoryId } from "../../../shared/categories.mjs";
 import type {
   HarnessAgent,
@@ -128,7 +129,7 @@ function dedupeById(items: CapabilityItem[]): CapabilityItem[] {
   return [...merged.values()];
 }
 
-export function buildCapabilityMap(s: HarnessSnapshot): CapabilityCategory[] {
+export function buildCapabilityMap(s: HarnessSnapshot, lang: Lang = "ja"): CapabilityCategory[] {
   const items = dedupeById([
     ...s.skills.map(skillItem),
     ...s.agents.map(agentItem),
@@ -137,9 +138,9 @@ export function buildCapabilityMap(s: HarnessSnapshot): CapabilityCategory[] {
     ...s.commands.map(commandItem),
   ]);
 
-  return (CATEGORIES as ReadonlyArray<{ id: CategoryId; label: string; emoji: string; order: number }>).map((category) => ({
+  return (CATEGORIES as ReadonlyArray<{ id: CategoryId; label: string; labelEn: string; emoji: string; order: number }>).map((category) => ({
     id: category.id,
-    label: category.label,
+    label: categoryLabel(category.id, lang),
     emoji: category.emoji,
     order: category.order,
     items: items.filter((item) => item.categoryId === category.id),

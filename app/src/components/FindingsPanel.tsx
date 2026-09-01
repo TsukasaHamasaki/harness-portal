@@ -1,17 +1,20 @@
 import type { HarnessFinding } from "../lib/findings";
+import { countLabel, useLang, useT } from "../lib/i18n";
 
 type FindingsPanelProps = {
   findings: HarnessFinding[];
 };
 
 export function FindingsPanel({ findings }: FindingsPanelProps) {
+  const t = useT();
+  const lang = useLang();
   if (findings.length === 0) return null;
 
   return (
-    <section className="findings-panel" data-testid="findings-panel" aria-label="気づき">
+    <section className="findings-panel" data-testid="findings-panel" aria-label={t("findingsAria")}>
       <h2 className="findings-heading">
-        気づき
-        <span>{findings.length}件</span>
+        {t("findingsHeading")}
+        <span>{countLabel(findings.length, lang)}</span>
       </h2>
       {findings.map((finding) => (
         <article

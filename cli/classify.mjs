@@ -143,7 +143,7 @@ export async function classifyItems(items, opts = {}) {
     }
     return { categories, mode: "agent", warnings };
   } catch (error) {
-    const failureReason = describeAgentFailure(error);
+    const failureReason = describeAgentFailure(error, opts.lang);
     const reason = (error?.name === "TimeoutError"
       ? "Agent classification timed out; rule fallback applied"
       : "Agent classification failed; rule fallback applied") + ` — ${failureReason}`;

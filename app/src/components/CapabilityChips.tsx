@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
 import type { CapabilityItem } from "../lib/capabilities";
-import { KIND_COLORS, KIND_LABELS_JA } from "../lib/kind-colors";
+import { KIND_COLORS, kindLabel } from "../lib/kind-colors";
 import { CapabilityDetailDialog } from "./CapabilityDetailDialog";
 import { CategoryIcon } from "../lib/category-icons";
 import type { CategoryId } from "../../../shared/categories.mjs";
+import { countLabel, useLang, useT } from "../lib/i18n";
+import type { Lang } from "../lib/i18n";
 
 export type CapabilityChipsCategory = {
   id: string;
@@ -32,16 +34,19 @@ function matchesQuery(item: CapabilityItem, query: string): boolean {
     .some((value) => value.toLocaleLowerCase().includes(query));
 }
 
-function CapabilityChip({ item, category, onSelect }: {
+function CapabilityChip({ item, category, lang, onSelect }: {
   item: CapabilityItem;
   category: CapabilityChipsCategory;
+  lang: Lang;
   onSelect: () => void;
 }) {
+  const t = useT();
   const color = KIND_COLORS[item.kind];
   const duplicated = item.occurrences > 1;
+  const kind = kindLabel(item.kind, lang);
   const label = duplicated
-    ? `${item.title}（${KIND_LABELS_JA[item.kind]}・${category.label}・${item.occurrences}プロジェクトに登録）`
-    : `${item.title}（${KIND_LABELS_JA[item.kind]}・${category.label}）`;
+    ? t("chipAriaDuplicated", item.title, kind, category.label, item.occurrences)
+    : t("chipAria", item.title, kind, category.label);
 
   return (
     <button
@@ -50,7 +55,7 @@ function CapabilityChip({ item, category, onSelect }: {
       data-testid="capability-chip"
       data-item-id={item.id}
       aria-label={label}
-      title={item.summary || "説明なし"}
+      title={item.summary || t("noDescription")}
       onClick={onSelect}
     >
       <span
@@ -76,6 +81,8 @@ function CapabilityChip({ item, category, onSelect }: {
 }
 
 export function CapabilityChips({ categories }: CapabilityChipsProps) {
+  const t = useT();
+  const lang = useLang();
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<CapabilityItem | null>(null);
   const normalizedQuery = query.trim().toLocaleLowerCase();
@@ -95,24 +102,24 @@ export function CapabilityChips({ categories }: CapabilityChipsProps) {
     <section className="capability-chips" aria-labelledby="capability-chips-heading">
       <div className="view-heading capability-chips-heading-row">
         <div>
-          <p className="section-kicker">CAPABILITY CHIPS</p>
-          <h2 id="capability-chips-heading">何ができる状態か</h2>
-          <p className="view-description">名前・要約・トリガー例文から検索できます。</p>
+          <p className="section-kicker">{t("chipsKicker")}</p>
+          <h2 id="capability-chips-heading">{t("chipsTitle")}</h2>
+          <p className="view-description">{t("chipsLead")}</p>
         </div>
         <div className="search-wrap">
           <span aria-hidden="true">⌕</span>
           <input
             type="search"
-            aria-label="能力を検索"
-            placeholder="名前・要約・トリガー例文で検索…"
+            aria-label={t("searchAria")}
+            placeholder={t("searchPlaceholder")}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
-          <span className="search-count" data-testid="capability-chip-count">{visibleCount}件</span>
+          <span className="search-count" data-testid="capability-chip-count">{countLabel(visibleCount, lang)}</span>
         </div>
       </div>
 
-      <div className="capability-chips-legend" role="group" aria-label="能力の種別凡例">
+      <div className="capability-chips-legend" role="group" aria-label={t("legendAria")}>
         {KINDS.map((kind) => (
           <span className="capability-chips-legend-item" key={kind}>
             <span
@@ -123,7 +130,7 @@ export function CapabilityChips({ categories }: CapabilityChipsProps) {
               style={{ backgroundColor: KIND_COLORS[kind] }}
               aria-hidden="true"
             />
-            {KIND_LABELS_JA[kind]}
+            {kindLabel(kind, lang)}
           </span>
         ))}
       </div>
@@ -140,7 +147,7 @@ export function CapabilityChips({ categories }: CapabilityChipsProps) {
               <h3 id={`capability-category-heading-${category.id}`}>
                 <CategoryIcon id={category.id as CategoryId} className="category-icon" />{category.label}
               </h3>
-              <span>{category.items.length}件</span>
+              <span>{countLabel(category.items.length, lang)}</span>
             </div>
             {category.items.length > 0 ? (
               <div className="capability-chip-list" data-testid="capability-chip-list">
@@ -149,6 +156,7 @@ export function CapabilityChips({ categories }: CapabilityChipsProps) {
                     key={item.id}
                     item={item}
                     category={category}
+                    lang={lang}
                     onSelect={() => setSelected(item)}
                   />
                 ))}

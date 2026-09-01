@@ -35,6 +35,7 @@ test("parseArgs covers the contract options and defaults", () => {
     noRecipes: false,
     port: 4477,
     portExplicit: false,
+    lang: null,
     claudeDir: path.join(os.homedir(), ".claude"),
     dataDir: DEFAULT_DATA_DIR,
   });
@@ -57,6 +58,7 @@ test("parseArgs covers the contract options and defaults", () => {
     noRecipes: true,
     port: 4488,
     portExplicit: true,
+    lang: null,
     claudeDir: "fixtures/fake-claude",
     dataDir: "fixtures/harness-data",
   });
@@ -317,4 +319,10 @@ test("run waits for the assigned port before displaying and opening the URL", { 
     }
     fs.rmSync(tempDir, { recursive: true, force: true });
   }
+});
+
+test("parseArgs --lang は ja/en だけを受け付ける", () => {
+  assert.equal(parseArgs(["--lang", "en"]).lang, "en");
+  assert.equal(parseArgs(["--lang", "ja"]).lang, "ja");
+  assert.throws(() => parseArgs(["--lang", "fr"]), /--lang must be ja or en/);
 });

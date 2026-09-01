@@ -2,20 +2,20 @@
 
 /** @type {{id: CategoryId, label: string, emoji: string, order: number}[]} */
 export const CATEGORIES = [
-  { id: "browser", label: "ブラウザを操作する", emoji: "🌍", order: 1 },
-  { id: "docs", label: "資料・スライドを作る", emoji: "📊", order: 2 },
-  { id: "media", label: "動画・画像を作る", emoji: "🎬", order: 3 },
-  { id: "transcribe", label: "文字起こし・議事録", emoji: "🎙️", order: 4 },
-  { id: "writing", label: "文章を書く", emoji: "✍️", order: 5 },
-  { id: "ec", label: "ECの仕事", emoji: "🛒", order: 6 },
-  { id: "gws", label: "Google Workspace・メール", emoji: "📧", order: 7 },
-  { id: "notion", label: "Notion・タスク管理", emoji: "🗂️", order: 8 },
-  { id: "web", label: "Webサイトを作る・公開", emoji: "🌐", order: 9 },
-  { id: "research", label: "調べもの・リサーチ", emoji: "🔍", order: 10 },
-  { id: "dev", label: "開発・エージェント運用", emoji: "🛠️", order: 11 },
-  { id: "data", label: "データ分析", emoji: "📈", order: 12 },
-  { id: "comm", label: "コミュニケーション", emoji: "💬", order: 13 },
-  { id: "other", label: "その他", emoji: "📦", order: 14 },
+  { id: "browser", label: "ブラウザを操作する", labelEn: "Browser automation", emoji: "🌍", order: 1 },
+  { id: "docs", label: "資料・スライドを作る", labelEn: "Documents & slides", emoji: "📊", order: 2 },
+  { id: "media", label: "動画・画像を作る", labelEn: "Video & images", emoji: "🎬", order: 3 },
+  { id: "transcribe", label: "文字起こし・議事録", labelEn: "Transcription & minutes", emoji: "🎙️", order: 4 },
+  { id: "writing", label: "文章を書く", labelEn: "Writing", emoji: "✍️", order: 5 },
+  { id: "ec", label: "ECの仕事", labelEn: "E-commerce", emoji: "🛒", order: 6 },
+  { id: "gws", label: "Google Workspace・メール", labelEn: "Google Workspace & email", emoji: "📧", order: 7 },
+  { id: "notion", label: "Notion・タスク管理", labelEn: "Notion & task management", emoji: "🗂️", order: 8 },
+  { id: "web", label: "Webサイトを作る・公開", labelEn: "Build & publish websites", emoji: "🌐", order: 9 },
+  { id: "research", label: "調べもの・リサーチ", labelEn: "Research", emoji: "🔍", order: 10 },
+  { id: "dev", label: "開発・エージェント運用", labelEn: "Development & agent ops", emoji: "🛠️", order: 11 },
+  { id: "data", label: "データ分析", labelEn: "Data analysis", emoji: "📈", order: 12 },
+  { id: "comm", label: "コミュニケーション", labelEn: "Communication", emoji: "💬", order: 13 },
+  { id: "other", label: "その他", labelEn: "Other", emoji: "📦", order: 14 },
 ];
 
 export const CATEGORY_IDS = CATEGORIES.map(({ id }) => id);
@@ -100,4 +100,11 @@ export function classifyByRule(name, description) {
     if (keywords.some((keyword) => matchesKeyword(text, keyword))) return id;
   }
   return null;
+}
+
+/** 言語に応じたカテゴリ名。未知の id や未対応言語は日本語ラベル（無ければ id）を返す */
+export function categoryLabel(id, lang = "ja") {
+  const category = CATEGORIES.find((entry) => entry.id === id);
+  if (!category) return String(id);
+  return lang === "en" ? category.labelEn : category.label;
 }

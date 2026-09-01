@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { SnapshotDiff } from "../lib/diff";
 import type { SnapshotMeta } from "../lib/history";
+import { countLabel, formatDateTime, useLang, useT } from "../lib/i18n";
 
 type HistoryViewProps = {
   snapshots: SnapshotMeta[];
@@ -12,22 +13,19 @@ type HistoryViewProps = {
   onError?: (error: unknown) => string;
 };
 
-function formatDate(value: string): string {
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleString("ja-JP");
-}
-
-function DiffList({ title, items, tone }: { title: string; items: { id: string; title: string }[]; tone: "added" | "removed" | "changed" }) {
+function DiffList({ title, items, tone, none }: { title: string; items: { id: string; title: string }[]; tone: "added" | "removed" | "changed"; none: string }) {
   const headingId = `diff-${tone}-heading`;
   return (
     <section className={`diff-section diff-${tone}`} aria-labelledby={headingId}>
       <div className="diff-heading"><h4 id={headingId}>{title}</h4><span>{items.length}</span></div>
-      {items.length > 0 ? <ul>{items.map((item) => <li key={item.id}>{item.title}</li>)}</ul> : <p>なし</p>}
+      {items.length > 0 ? <ul>{items.map((item) => <li key={item.id}>{item.title}</li>)}</ul> : <p>{none}</p>}
     </section>
   );
 }
 
 export function HistoryView({ snapshots, loading, error, onRefresh, onDelete, onCompare, onError }: HistoryViewProps) {
+  const t = useT();
+  const lang = useLang();
   const [selected, setSelected] = useState<string[]>([]);
   const [diff, setDiff] = useState<SnapshotDiff | null>(null);
   const [comparing, setComparing] = useState(false);
@@ -36,7 +34,7 @@ export function HistoryView({ snapshots, loading, error, onRefresh, onDelete, on
 
   function errorMessage(error: unknown): string {
     if (onError) return onError(error);
-    return error instanceof Error ? error.message : "履歴ストアとの通信に失敗しました。";
+    return error instanceof Error ? error.message : t("historyStoreError");
   }
 
   function toggleSelection(fileId: string): void {
@@ -61,7 +59,7 @@ export function HistoryView({ snapshots, loading, error, onRefresh, onDelete, on
   }
 
   async function remove(fileId: string): Promise<void> {
-    if (!window.confirm("このスナップショットを削除しますか？")) return;
+    if (!window.confirm(t("historyDeleteConfirm"))) return;
     setDeleting(fileId);
     setActionError(null);
     try {
@@ -78,36 +76,37 @@ export function HistoryView({ snapshots, loading, error, onRefresh, onDelete, on
   return (
     <section className="history-view" aria-labelledby="history-heading">
       <div className="view-heading history-heading-row">
-        <div><p className="section-kicker">HISTORY</p><h2 id="history-heading">履歴と差分</h2><p className="view-description">2件を選ぶと、能力の追加・削除・変更を比較できます。</p></div>
-        <button className="button button-secondary" type="button" onClick={() => onRefresh()} disabled={loading}>{loading ? "更新中…" : "↻ 履歴を更新"}</button>
+        <div><p className="section-kicker">{t("historyKicker")}</p><h2 id="history-heading">{t("historyTitle")}</h2><p className="view-description">{t("historyLead")}</p></div>
+        <button className="button button-secondary" type="button" onClick={() => onRefresh()} disabled={loading}>{loading ? t("historyRefreshing") : t("historyRefresh")}</button>
       </div>
       {error || actionError ? <div className="inline-alert" role="alert">{error ?? actionError}</div> : null}
-      {snapshots.length === 0 && !loading ? <div className="history-empty"><span className="empty-icon">◷</span><h3>保存されたスナップショットはありません</h3><p>現在の状態を保存すると、ここから履歴を比較できます。</p></div> : null}
+      {snapshots.length === 0 && !loading ? <div className="history-empty"><span className="empty-icon">◷</span><h3>{t("historyEmptyTitle")}</h3><p>{t("historyEmptyBody")}</p></div> : null}
       {snapshots.length > 0 ? (
         <>
-          <div className="history-toolbar"><span>{selected.length}/2件を選択</span><button className="button button-primary" type="button" disabled={selected.length !== 2 || comparing} onClick={compare}>{comparing ? "比較中…" : "選択した2件を比較"}</button></div>
+          <div className="history-toolbar"><span>{t("historySelected", selected.length)}</span><button className="button button-primary" type="button" disabled={selected.length !== 2 || comparing} onClick={compare}>{comparing ? t("historyComparing") : t("historyCompare")}</button></div>
           <div className="snapshot-list">
             {snapshots.map((snapshot) => (
               <article className={`snapshot-row${selected.includes(snapshot.fileId) ? " is-selected" : ""}`} key={snapshot.fileId}>
                 <label className="snapshot-select"><input type="checkbox" checked={selected.includes(snapshot.fileId)} onChange={() => toggleSelection(snapshot.fileId)} /><span className="custom-checkbox" /></label>
-                <div className="snapshot-main"><strong>{snapshot.label || "無題のスナップショット"}</strong><span>{formatDate(snapshot.createdTime || snapshot.exportedAt)}</span></div>
+                <div className="snapshot-main"><strong>{snapshot.label || t("historyUntitled")}</strong><span>{formatDateTime(snapshot.createdTime || snapshot.exportedAt, lang)}</span></div>
                 <div className="snapshot-counts">{snapshot.counts.skills ?? 0} skills · {snapshot.counts.mcpServers ?? 0} MCP</div>
-                <button className="icon-button danger-button" type="button" aria-label={`${snapshot.label}を削除`} disabled={deleting === snapshot.fileId} onClick={() => remove(snapshot.fileId)}>×</button>
+                <button className="icon-button danger-button" type="button" aria-label={t("historyDeleteAria", snapshot.label)} disabled={deleting === snapshot.fileId} onClick={() => remove(snapshot.fileId)}>×</button>
               </article>
             ))}
           </div>
           {diff ? (
             <section className="diff-result" aria-labelledby="diff-heading">
-              <div className="diff-result-heading"><div><p className="section-kicker">COMPARISON</p><h3 id="diff-heading">スナップショットの差分</h3></div><span className="unchanged-count">不変 {diff.unchangedCount}件</span></div>
+              <div className="diff-result-heading"><div><p className="section-kicker">{t("diffKicker")}</p><h3 id="diff-heading">{t("diffTitle")}</h3></div><span className="unchanged-count">{t("diffUnchanged", diff.unchangedCount)}</span></div>
               <div className="diff-grid">
-                <DiffList title="追加" tone="added" items={diff.added.map((item) => ({ id: item.id, title: item.title }))} />
-                <DiffList title="削除" tone="removed" items={diff.removed.map((item) => ({ id: item.id, title: item.title }))} />
-                <DiffList title="変更" tone="changed" items={diff.changed.map((item) => ({ id: item.after.id, title: `${item.after.title}（${item.fields.join("・")}）` }))} />
+                <DiffList title={t("diffAdded")} tone="added" none={t("diffNone")} items={diff.added.map((item) => ({ id: item.id, title: item.title }))} />
+                <DiffList title={t("diffRemoved")} tone="removed" none={t("diffNone")} items={diff.removed.map((item) => ({ id: item.id, title: item.title }))} />
+                <DiffList title={t("diffChanged")} tone="changed" none={t("diffNone")} items={diff.changed.map((item) => ({ id: item.after.id, title: lang === "ja" ? `${item.after.title}（${item.fields.join("・")}）` : `${item.after.title} (${item.fields.join(", ")})` }))} />
               </div>
             </section>
           ) : null}
         </>
       ) : null}
+      <span hidden data-testid="history-count">{countLabel(snapshots.length, lang)}</span>
     </section>
   );
 }

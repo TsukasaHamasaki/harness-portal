@@ -6,6 +6,7 @@ import { resolveStepTools } from "../lib/capabilities";
 import { buildSkillPrompt } from "../lib/skill-prompt";
 import { buildEdgePath, buildEdgeGeometries, type EdgeGeometry } from "../lib/edge-path";
 import { CapabilityDetailDialog } from "./CapabilityDetailDialog";
+import { useLang, useT } from "../lib/i18n";
 
 type RecipeFlowProps = {
   recipes: Recipe[];
@@ -39,11 +40,12 @@ function RecipeStepTools({
   tools: CapabilityItem[];
   onSelect: (item: CapabilityItem) => void;
 }) {
+  const t = useT();
   if (tools.length === 0) {
     return (
       <div className="recipe-step-empty" style={{ color: "var(--orange)", background: "var(--orange-tint)" }}>
         <WarningIcon />
-        <span>手段なし</span>
+        <span>{t("noTool")}</span>
       </div>
     );
   }
@@ -72,6 +74,8 @@ function RecipeCard({
   itemMap: Map<string, CapabilityItem>;
   onSelect: (item: CapabilityItem) => void;
 }) {
+  const t = useT();
+  const lang = useLang();
   const canvasRef = useRef<HTMLDivElement | null>(null);
   const nodeRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [edges, setEdges] = useState<EdgeGeometry[]>(() =>
@@ -110,7 +114,7 @@ function RecipeCard({
   }, [recipe.steps.length]);
 
   const handleSkillPrompt = () => {
-    const md = buildSkillPrompt({ recipe, items: [...itemMap.values()] });
+    const md = buildSkillPrompt({ recipe, items: [...itemMap.values()], lang });
     const a = document.createElement("a");
     a.href = `data:text/markdown;charset=utf-8,${encodeURIComponent(md)}`;
     a.download = `skill-prompt-${recipe.id}.md`;
@@ -139,7 +143,7 @@ function RecipeCard({
           data-testid="recipe-skill-prompt"
           onClick={handleSkillPrompt}
         >
-          skill化プロンプト
+          {t("skillPromptButton")}
         </button>
       </div>
       <div className="recipe-canvas" ref={canvasRef}>
@@ -196,13 +200,14 @@ function RecipeCard({
 }
 
 export function RecipeFlow({ recipes, items }: RecipeFlowProps) {
+  const t = useT();
   const [selected, setSelected] = useState<CapabilityItem | null>(null);
   const itemMap = useMemo(() => new Map(items.map((item) => [item.id, item])), [items]);
 
   if (recipes.length === 0) {
     return (
       <div className="recipe-flow-empty">
-        <p>フローは npx harness-portal（--no-agent なし）で生成されます</p>
+        <p>{t("recipesEmpty")}</p>
       </div>
     );
   }

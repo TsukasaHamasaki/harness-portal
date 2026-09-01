@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { deleteSnapshot, listSnapshots, loadSnapshot } from "./snapshot-store.mjs";
+import { cliText } from "../shared/i18n.mjs";
 
 const MIME_TYPES = {
   ".css": "text/css; charset=utf-8",
@@ -86,21 +87,17 @@ export function isPortAvailable(port) {
  * An explicit --port is honoured as-is: if it is taken, fail now rather than later.
  * The default port falls forward to the next free one, like any dev server.
  */
-export async function resolveServePort(port, { explicit = false, maxAttempts = 20 } = {}) {
+export async function resolveServePort(port, { explicit = false, maxAttempts = 20, lang = "ja" } = {}) {
   if (await isPortAvailable(port)) return port;
   if (explicit) {
-    const error = new Error(
-      `ポート ${port} は既に使われています。別のポートを --port で指定するか、使用中のプロセスを止めてください。`,
-    );
+    const error = new Error(cliText(lang, "portInUse", port));
     error.code = "EADDRINUSE";
     throw error;
   }
   for (let candidate = port + 1; candidate < port + maxAttempts && candidate <= 65535; candidate += 1) {
     if (await isPortAvailable(candidate)) return candidate;
   }
-  const error = new Error(
-    `ポート ${port} から ${port + maxAttempts - 1} まで全て使われています。--port で空きポートを指定してください。`,
-  );
+  const error = new Error(cliText(lang, "portRangeInUse", port, port + maxAttempts - 1));
   error.code = "EADDRINUSE";
   throw error;
 }

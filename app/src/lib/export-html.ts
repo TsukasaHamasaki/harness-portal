@@ -1,5 +1,7 @@
 import { buildCapabilityMap, resolveStepTools, type CapabilityItem } from "./capabilities";
-import { KIND_COLORS, KIND_LABELS_JA } from "./kind-colors";
+import { KIND_COLORS, kindLabel } from "./kind-colors";
+import type { Lang } from "../../../shared/i18n.mjs";
+import { countLabel, translate } from "./i18n";
 import type { HarnessSnapshot, Recipe } from "./schema";
 
 const SYSTEM_FONT_STACK =
@@ -128,42 +130,42 @@ function styleBlock(): string {
   `;
 }
 
-function renderChip(item: CapabilityItem): string {
+function renderChip(item: CapabilityItem, lang: Lang): string {
   const color = KIND_COLORS[item.kind];
-  const kindLabel = KIND_LABELS_JA[item.kind];
+  const label = kindLabel(item.kind, lang);
   return `<span class="chip" title="${escapeHtml(item.summary)}">` +
     `<span class="chip-marker" style="background-color: ${color};" aria-hidden="true"></span>` +
-    `<span class="chip-label">${escapeHtml(item.title)}（${escapeHtml(kindLabel)}）</span>` +
+    `<span class="chip-label">${escapeHtml(item.title)}${lang === "ja" ? `（${escapeHtml(label)}）` : ` (${escapeHtml(label)})`}</span>` +
     `</span>`;
 }
 
-function renderMapView(snapshot: HarnessSnapshot): string {
-  const categories = buildCapabilityMap(snapshot);
+function renderMapView(snapshot: HarnessSnapshot, lang: Lang): string {
+  const categories = buildCapabilityMap(snapshot, lang);
   const sections = categories
     .map((category) => {
       const body =
         category.items.length > 0
-          ? `<div class="chip-list">${category.items.map(renderChip).join("")}</div>`
-          : `<p class="empty-state">0件</p>`;
+          ? `<div class="chip-list">${category.items.map((item) => renderChip(item, lang)).join("")}</div>`
+          : `<p class="empty-state">${countLabel(0, lang)}</p>`;
       return (
         `<section class="category-section">` +
-        `<div class="category-heading"><h2>${escapeHtml(category.label)}</h2><span>${category.items.length}件</span></div>` +
+        `<div class="category-heading"><h2>${escapeHtml(category.label)}</h2><span>${countLabel(category.items.length, lang)}</span></div>` +
         body +
         `</section>`
       );
     })
     .join("");
-  return sections || `<p class="empty-state">能力データがありません。</p>`;
+  return sections || `<p class="empty-state">${lang === "ja" ? "能力データがありません。" : "No capability data."}</p>`;
 }
 
-function renderFlowView(snapshot: HarnessSnapshot): string {
+function renderFlowView(snapshot: HarnessSnapshot, lang: Lang): string {
   const recipes: Recipe[] = Array.isArray(snapshot.recipes) ? snapshot.recipes : [];
   if (recipes.length === 0) {
-    return `<p class="empty-state">フローは npx harness-portal（--no-agent なし）で生成されます。</p>`;
+    return `<p class="empty-state">${escapeHtml(translate(lang, "recipesEmpty"))}</p>`;
   }
 
   const itemById = new Map<string, CapabilityItem>();
-  for (const category of buildCapabilityMap(snapshot)) {
+  for (const category of buildCapabilityMap(snapshot, lang)) {
     for (const item of category.items) {
       itemById.set(item.id, item);
     }
@@ -180,8 +182,8 @@ function renderFlowView(snapshot: HarnessSnapshot): string {
               : "";
           const body =
             resolved.length > 0
-              ? `<div class="chip-list">${resolved.map(renderChip).join("")}</div>`
-              : `<span class="recipe-step-empty">手段なし</span>`;
+              ? `<div class="chip-list">${resolved.map((item) => renderChip(item, lang)).join("")}</div>`
+              : `<span class="recipe-step-empty">${escapeHtml(translate(lang, "noTool"))}</span>`;
           return (
             `<div class="recipe-step">` +
             `<span class="recipe-step-index">${index + 1}</span>` +
@@ -208,13 +210,15 @@ export function buildStandaloneHtml(input: {
   title: string;
   view: "map" | "flow";
   snapshot: HarnessSnapshot;
+  lang?: Lang;
 }): string {
   const { title, view, snapshot } = input;
-  const body = view === "flow" ? renderFlowView(snapshot) : renderMapView(snapshot);
+  const lang: Lang = input.lang ?? "ja";
+  const body = view === "flow" ? renderFlowView(snapshot, lang) : renderMapView(snapshot, lang);
   const exportedAt = typeof snapshot.exportedAt === "string" ? snapshot.exportedAt : "";
 
   return `<!DOCTYPE html>
-<html lang="ja">
+<html lang="${lang}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -223,7 +227,7 @@ export function buildStandaloneHtml(input: {
 </head>
 <body>
 <h1>${escapeHtml(title)}</h1>
-<p class="export-meta">${escapeHtml(view === "flow" ? "フロー" : "マップ")} / ${escapeHtml(exportedAt)}</p>
+<p class="export-meta">${escapeHtml(view === "flow" ? translate(lang, "tabFlow") : translate(lang, "tabMap"))} / ${escapeHtml(exportedAt)}</p>
 ${body}
 </body>
 </html>`;
