@@ -77,7 +77,18 @@ h3{font-size:15px;font-weight:600}
 .topbar a.npm:hover{background:var(--hover)}
 
 /* hero */
-.hero{padding:88px 0 56px;animation:fadeup 600ms var(--ease-out-strong) both}
+.hero{position:relative;isolation:isolate;overflow:hidden;padding:96px 0 72px;background:#131517;color:#fff;animation:fadeup 600ms var(--ease-out-strong) both}
+.hero-video{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:right center}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#131517 0%,#131517 34%,rgba(19,21,23,.7) 50%,rgba(19,21,23,0) 62%)}
+.hero .eyebrow{color:rgb(255 255 255/.5)}
+.hero .en{color:rgb(255 255 255/.55)}
+.hero .lead{color:rgb(255 255 255/.72);max-width:600px}
+.hero .install{max-width:600px;background:#1d2024;box-shadow:0 0 0 1px rgb(255 255 255/.1),var(--shadow-sm)}
+.hero .reqs{max-width:600px;color:rgb(255 255 255/.72)}
+.hero .reqs b{color:#fff}
+.hero .badge{color:rgb(255 255 255/.7);background:rgb(255 255 255/.06);box-shadow:0 0 0 1px rgb(255 255 255/.12)}
+@media (prefers-reduced-motion:reduce){.hero-video{display:none}.hero{background:#131517 url(hero-poster.jpg) right center/cover no-repeat}}
+@media (max-width:760px){.hero-video{display:none}.hero::before{display:none}}
 .hero h1{font-size:clamp(28px,5vw,42px);font-weight:900;line-height:1.25}
 .hero .en{margin:12px 0 0;font-size:14px}
 .hero .lead{margin:22px 0 0}
@@ -141,6 +152,10 @@ footer a:hover{color:var(--ink)}
 </header>
 
 <section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="hero-poster.jpg" aria-hidden="true" tabindex="-1">
+    <source src="hero.webm" type="video/webm" />
+    <source src="hero.mp4" type="video/mp4" />
+  </video>
   <div class="wrap">
     <p class="eyebrow">Claude Code harness visualizer</p>
     <h1>あなたのハーネスを、1画面に。</h1>
