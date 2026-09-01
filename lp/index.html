@@ -97,6 +97,13 @@ h3{font-size:15px;font-weight:600}
 .badges{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
 .badge{padding:5px 11px;border-radius:999px;background:var(--canvas);box-shadow:var(--shadow-hairline);color:var(--ink-2);font-size:11px;font-variant-numeric:tabular-nums}
 .install{margin:28px 0 0;padding:18px 20px;border-radius:var(--radius-card);background:var(--ink);color:#fff;box-shadow:var(--shadow-sm)}
+.install{position:relative}
+.copy-btn{position:absolute;top:14px;right:14px;display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:0;border-radius:var(--radius-control);background:rgb(255 255 255/.07);box-shadow:0 0 0 1px rgb(255 255 255/.14);color:rgb(255 255 255/.8);font:500 11.5px var(--font-sans);cursor:pointer;transition:background-color 120ms var(--ease-out-strong),color 120ms var(--ease-out-strong)}
+.copy-btn:hover{background:rgb(255 255 255/.13);color:#fff}
+.copy-btn:active{transform:scale(.96)}
+.copy-btn.is-done{color:#8ee6a8;box-shadow:0 0 0 1px rgb(142 230 168/.45)}
+.copy-btn svg{width:13px;height:13px}
+@media (max-width:760px){.copy-btn span{display:none}.copy-btn{padding:7px}}
 .install .dollar{color:rgb(255 255 255/.45);user-select:none}
 .install code{font-size:clamp(15px,3vw,19px);font-weight:500;letter-spacing:.01em}
 .install p{margin:10px 0 0;color:rgb(255 255 255/.6);font-size:11.5px}
@@ -163,6 +170,7 @@ footer a:hover{color:var(--ink)}
     <p class="lead">Claude Code に積んだスキル・MCP サーバー・サブエージェント・プラグインを収集して、「いま何ができる状態か」として並べ直します。増やしたはいいが把握しきれなくなった手持ちを、見える形にするためのツールです。</p>
     <div class="install">
       <code><span class="dollar">$ </span>npx harness-portal</code>
+      <button type="button" class="copy-btn" data-copy="npx harness-portal" data-idle="コピー" data-done="コピーしました" aria-label="コピー"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>コピー</span></button>
       <p>インストール不要。macOS / Windows / Linux（WSL）で、PowerShell でも cmd でも同じコマンドです。</p>
     </div>
     <ul class="reqs">
@@ -261,5 +269,20 @@ footer a:hover{color:var(--ink)}
   </div>
 </footer>
 
+<script>
+document.querySelectorAll(".copy-btn").forEach(function (btn) {
+  var label = btn.querySelector("span");
+  var idle = btn.getAttribute("data-idle"), done = btn.getAttribute("data-done");
+  btn.addEventListener("click", function () {
+    var text = btn.getAttribute("data-copy");
+    var finish = function () {
+      btn.classList.add("is-done"); label.textContent = done; btn.setAttribute("aria-label", done);
+      setTimeout(function () { btn.classList.remove("is-done"); label.textContent = idle; btn.setAttribute("aria-label", idle); }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(finish, finish);
+    else { var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); } catch (e) {} document.body.removeChild(ta); finish(); }
+  });
+});
+</script>
 </body>
 </html>
