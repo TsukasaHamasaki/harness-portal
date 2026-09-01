@@ -172,7 +172,7 @@ footer a:hover{color:var(--ink)}
   <div class="wrap">
     <p class="eyebrow">Claude Code harness visualizer</p>
     <h1>Your whole harness, on one screen.</h1>
-    <p class="en">あなたのハーネスを、1画面に。</p>
+    <p class="en">A local capability map for Claude Code.</p>
     <p class="lead">It collects the skills, MCP servers, sub-agents, and plugins you have added to Claude Code and lays them out as “what I can do right now”. A tool for seeing the toolkit you kept growing and stopped being able to track.</p>
     <div class="install">
       <code><span class="dollar">$ </span>npx harness-portal</code>
@@ -200,17 +200,17 @@ footer a:hover{color:var(--ink)}
     <div class="steps">
       <div class="step">
         <span class="step-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
-        <h3>1. Scan <span class="en">走査</span></h3>
+        <h3>1. Scan</h3>
         <p>Reads <code>~/.claude</code> with an allowlist — only explicitly listed files are opened, and <b>nothing is ever written</b>.</p>
       </div>
       <div class="step">
         <span class="step-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span>
-        <h3>2. Classify <span class="en">分類</span></h3>
+        <h3>2. Classify</h3>
         <p><b>Your own Claude</b> assigns a category to each item. No external server, no API key, no extra billing. Without a Claude Code login it falls back to keyword rules.</p>
       </div>
       <div class="step">
         <span class="step-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></span>
-        <h3>3. Open <span class="en">表示</span></h3>
+        <h3>3. Open</h3>
         <p>Your browser opens on <code>localhost</code>. The first run takes about two minutes for classification and flow generation.</p>
       </div>
     </div>
@@ -231,24 +231,24 @@ footer a:hover{color:var(--ink)}
   <div class="wrap">
     <p class="eyebrow">What you get</p>
     <h2>What you get</h2>
-    <p class="lead" style="margin:12px 0 30px">Real screens from a demo harness (48 skills, 19 MCP servers, 4 agents, 3 plugins). The UI is shown in Japanese here; the app has a JA / EN switch in the header.</p>
+    <p class="lead" style="margin:12px 0 30px">Real screens from a demo harness (48 skills, 19 MCP servers, 4 agents, 3 plugins), run with <code>--lang en</code>. The app also has a JA / EN switch in the header.</p>
 
     <div class="feature">
-      <h3>Capability map <span class="en">能力マップ</span></h3>
+      <h3>Capability map</h3>
       <p class="lead">Every item, grouped by category. <b>Names are never truncated.</b> An MCP server registered in several projects is shown once with a count badge. Search across everything.</p>
-      <img class="shot" src="../shots/01-map.png" loading="lazy" width="2000" height="960" alt="The capability map: skills and MCP servers shown as chips, grouped into categories such as browser automation, documents, and video." />
+      <img class="shot" src="../shots/en/01-map.png" loading="lazy" width="2000" height="960" alt="The capability map: skills and MCP servers shown as chips, grouped into categories such as browser automation, documents, and video." />
     </div>
 
     <div class="feature">
-      <h3>Task flows <span class="en">タスクフロー</span></h3>
+      <h3>Task flows</h3>
       <p class="lead">“For this job, these steps” — assembled from the tools you actually have. If no tool covers a step it says <b>“No tool available”</b> instead of pretending. Each flow exports a <b>skill prompt</b> (Markdown) you can hand straight to Claude Code.</p>
-      <img class="shot" src="../shots/02-flow.png" loading="lazy" width="2000" height="960" alt="A task flow: numbered step nodes laid out left to right, connected by curved arrows, each holding the tool chips for that step." />
+      <img class="shot" src="../shots/en/02-flow.png" loading="lazy" width="2000" height="960" alt="A task flow: numbered step nodes laid out left to right, connected by curved arrows, each holding the tool chips for that step." />
     </div>
 
     <div class="feature">
-      <h3>Findings <span class="en">気づき</span></h3>
+      <h3>Findings</h3>
       <p class="lead">Detects MCP servers that carry the <b>same name but different settings</b> across projects, or identical entries registered more than once, and asks <b>“Is that intentional?”</b> — the kind of thing you never notice by scrolling a list.</p>
-      <img class="shot" src="../shots/03-findings.png" loading="lazy" width="2000" height="960" alt="The findings panel: warns that an MCP server with the same name has different configurations in two places, listing each project and its settings." />
+      <img class="shot" src="../shots/en/03-findings.png" loading="lazy" width="2000" height="960" alt="The findings panel: warns that an MCP server with the same name has different configurations in two places, listing each project and its settings." />
     </div>
   </div>
 </section>
